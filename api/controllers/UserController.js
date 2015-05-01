@@ -43,7 +43,7 @@ module.exports = {
 			} else {
 				res.negotiate(err);
 			}
-		})
+		});
 	},
 
 	//Login API
@@ -63,6 +63,7 @@ module.exports = {
         }
     },
 
+    //Logout API
     logout: function (req, res) {
     	req.session.user = null;
         res.json("Logout Successfully");

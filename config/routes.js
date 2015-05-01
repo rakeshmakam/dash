@@ -38,9 +38,15 @@ module.exports.routes = {
   'Delete /user/:id'                : 'UserController.delete',
   'Get /user'                       : 'UserController.list',
   'Get /status'                     : 'UserController.status',
-  '/': {
-    view: 'homepage'
-  }
+
+  'Get /workspace'                  : 'workspaceController.list',
+  'Post /workspace'                 : 'workspaceController.add',
+  'Put /workspace/:id'              : 'workspaceController.edit',
+  'Delete /workspace/:id'           : 'workspaceController.delete'
+
+  // '/': {
+  //   view: 'homepage'
+  // }
 
   /***************************************************************************
   *                                                                          *

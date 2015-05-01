@@ -38,6 +38,10 @@ module.exports = {
 			size: 10
 		},
 
+		name: {
+			type: "string"
+		},
+
 		photo: {
 			type: "string"
 		},
@@ -119,7 +123,6 @@ module.exports = {
 
 	//For Deleting the user
 	delete: function (userId, callback) {
-		console.log(userId);
 		User.destroy({id : userId}).exec( function (err, data) {
 			if (!err) {
 				console.log(data);
