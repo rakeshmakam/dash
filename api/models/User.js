@@ -30,6 +30,7 @@ module.exports = {
 
 		email_verified: {
 			type : "boolean",
+			defaultsTo : false,
 			required : true
 		},
 
@@ -66,7 +67,6 @@ module.exports = {
 	},
 
 	add: function (data, callback) {
-		data.email_verified = false;
 		data.role = 'user';
 		User.create(data, function(err, user){
 			if(!err) {
@@ -88,7 +88,7 @@ module.exports = {
 		User.update({id : userId}, req, function(err, data){
 			if (!err) {
 				if (data.length == 0) {
-					return callback({status: 404, message: "Profile not found"});
+					return callback({status: 404, message: "User not found"});
 				} else {
 					return callback(null, data);
 				}
@@ -103,7 +103,7 @@ module.exports = {
 			if (err) {
 				callback(err);
 			} else if(user) {
-				// if (user.email_verified){
+				if (user.email_verified){
 					validatePassword(opts.password, user.password, function(res){
 						if(res) {
 							delete user['password'];
@@ -112,9 +112,9 @@ module.exports = {
 							callback({status: 400, message: "Email or password does not match"});
 						}
 					});
-				// } else {
-				// 	callback({status: 400, message: "Please confirm your email"});
-				// }
+				} else {
+					callback({status: 400, message: "Please confirm your email"});
+				}
 			} else {
 				callback({status: 404, message: "User does not exists"});
 			} 
@@ -127,7 +127,7 @@ module.exports = {
 			if (!err) {
 				console.log(data);
 				if (data.length == 0) {
-					return callback({status: 404, message: "Profile not found"});
+					return callback({status: 404, message: "User not found"});
 				} else {
 					return callback(null, data.id);
 				}

@@ -42,7 +42,12 @@ module.exports.routes = {
   'Get /workspace'                  : 'workspaceController.list',
   'Post /workspace'                 : 'workspaceController.add',
   'Put /workspace/:id'              : 'workspaceController.edit',
-  'Delete /workspace/:id'           : 'workspaceController.delete'
+  'Delete /workspace/:id'           : 'workspaceController.delete',
+
+  'Post /project'                   : 'projectController.add',
+  'Get /project'                    : 'projectController.list',
+  'Put /project'                    : 'projectController.edit',
+  'Delete /project'                 : 'projectController.delete'
 
   // '/': {
   //   view: 'homepage'

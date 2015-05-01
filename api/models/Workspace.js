@@ -56,7 +56,6 @@ module.exports = {
 		});
 	},
 
-	//For Deleting the user
 	delete: function (workspaceId, callback) {
 		Workspace.destroy({id : workspaceId}).exec( function (err, data) {
 			if (!err) {
