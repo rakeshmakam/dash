@@ -47,7 +47,12 @@ module.exports.routes = {
   'Post /project'                   : 'projectController.add',
   'Get /project'                    : 'projectController.list',
   'Put /project'                    : 'projectController.edit',
-  'Delete /project'                 : 'projectController.delete'
+  'Delete /project'                 : 'projectController.delete',
+
+  'Post /activity'                  : 'activityController.add',
+  'Get /activity'                   : 'activityController.list',
+  'Put /activity'                   : 'activityController.edit',
+  'Delete /activity'                : 'activityController.delete'
 
   // '/': {
   //   view: 'homepage'
