@@ -46,7 +46,7 @@ module.exports = {
 		Workspace.update({id : workspaceId}, req, function(err, workspace){
 			if (!err) {
 				if (workspace.length == 0) {
-					return callback({status: 404, message: "Workspace not found"});
+					return callback({status: 401, message: "Workspace not found"});
 				} else {
 					return callback(null, workspace);
 				}
@@ -60,7 +60,7 @@ module.exports = {
 		Workspace.destroy({id : workspaceId}).exec( function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
-					return callback({status: 404, message: "Workspace not found"});
+					return callback({status: 401, message: "Workspace not found"});
 				} else {
 					return callback(null, data.id);
 				}

@@ -63,7 +63,7 @@ module.exports = {
 		Activity.update({id : activityId}, req).populate('project_id', 'user_id').exec(function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
-					callback({status: 404, message: "activity not found"});
+					callback({status: 401, message: "activity not found"});
 				} else {
 					callback(null, data);
 				}
@@ -77,7 +77,7 @@ module.exports = {
 		Activity.destroy({id : activityId}).exec( function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
-					return callback({status: 404, message: "activity not found"});
+					return callback({status: 401, message: "activity not found"});
 				} else {
 					return callback(null, data.id);
 				}

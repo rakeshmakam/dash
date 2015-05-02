@@ -88,7 +88,7 @@ module.exports = {
 		User.update({id : userId}, req, function(err, data){
 			if (!err) {
 				if (data.length == 0) {
-					return callback({status: 404, message: "User not found"});
+					return callback({status: 401, message: "User not found"});
 				} else {
 					return callback(null, data);
 				}
@@ -116,7 +116,7 @@ module.exports = {
 					callback({status: 400, message: "Please confirm your email"});
 				}
 			} else {
-				callback({status: 404, message: "User does not exists"});
+				callback({status: 401, message: "User does not exists"});
 			} 
 	    });
 	},
@@ -127,7 +127,7 @@ module.exports = {
 			if (!err) {
 				console.log(data);
 				if (data.length == 0) {
-					return callback({status: 404, message: "User not found"});
+					return callback({status: 401, message: "User not found"});
 				} else {
 					return callback(null, data.id);
 				}
