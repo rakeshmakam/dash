@@ -21,8 +21,14 @@ module.exports = {
 		},
 
 		project_id: {
+			required : true
 			model: 'project'
-		}
+		},
+
+		user_id: {
+			required : true
+			model: 'user'
+		},
 
 		// likes: {
 		// 	model: 'likes'
@@ -34,7 +40,7 @@ module.exports = {
 	},
 	
 	list: function (data, callback) {
-		Activity.find().populate('project_id').exec(function (err, data) {
+		Activity.find().populate('project_id', 'user_id').exec(function (err, data) {
 			if (!err) {
 				callback(null, data);
 			} else {
@@ -44,7 +50,7 @@ module.exports = {
 	},
 
 	add: function (data, callback) {
-		Activity.create(data).populate('project_id').exec(function (err, activity) {
+		Activity.create(data).populate('project_id', 'user_id').exec(function (err, activity) {
 			if(!err) {
 				callback(null, activity);
 			} else {
@@ -54,7 +60,7 @@ module.exports = {
 	},
 
 	edit: function (activityId, req, callback) {
-		Activity.update({id : activityId}, req).exec(function (err, data) {
+		Activity.update({id : activityId}, req).populate('project_id', 'user_id').exec(function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
 					callback({status: 404, message: "activity not found"});
