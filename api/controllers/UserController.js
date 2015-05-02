@@ -4,12 +4,19 @@
  * @description :: Server-side logic for managing users
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
+var base_url = "https://s3-us-west-2.amazonaws.com/mantra-dash/avatar/"; 
 
 module.exports = {
 	//Get list of user
 	list: function (req, res) {
-		User.list(req.body, function (err, user) {
+		User.list(req.body, function (err, users) {
 			if (!err) {
+				users = users.map(function(obj){ 
+                    delete obj.password
+                    if(obj.avatar)
+                        obj.avatar = base_url + obj.avatar;
+                    return obj;
+                });
 				res.json(user);
 			} else {
 				res.negotiate(err);
@@ -21,7 +28,15 @@ module.exports = {
 	add: function (req, res) {
 		User.add(req.body, function (err, user) {
 			if (!err) {
+				user = user.map(function(obj){ 
+                    delete obj.password
+                    if(obj.avatar)
+                        obj.avatar = base_url + obj.avatar;
+                    return obj;
+                });
+                
 				res.json(user);
+
 				EmailService.send(user, function(error, data){
 					if (!error) {
 						sails.log.debug(data);
@@ -40,6 +55,12 @@ module.exports = {
 		var userId = req.param('id');
 		User.edit(userId, req.body, function (err, user) {
 			if (!err) {
+				user = user.map(function(obj){ 
+                    delete obj.password
+                    if(obj.avatar)
+                        obj.avatar = base_url + obj.avatar;
+                    return obj;
+                });
 				res.json(user);
 			} else {
 				res.negotiate(err);
