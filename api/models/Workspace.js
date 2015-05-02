@@ -9,21 +9,20 @@ module.exports = {
 	tableName: "workspace",
 
 	attributes: {
-		id: {
-			type:"int",
-			primaryKey: true,
-			autoIncrement: true
-		},
-
 		name: {
 			type: "string",
 			unique: true,
 			required : true
+		},
+
+		projects: {
+			collection: 'Project',
+			via: 'workspace'
 		}
 	},
 
 	list: function (data, callback) {
-		Workspace.find().exec(function(err, data){
+		Workspace.find().populate("projects").exec(function (err, data) {
 			if (!err) {
 				callback(null, data);
 			} else {
@@ -43,7 +42,7 @@ module.exports = {
 	},
 
 	edit: function (workspaceId, req, callback) {
-		Workspace.update({id : workspaceId}, req, function(err, workspace){
+		Workspace.update({id : workspaceId}, req, function (err, workspace) {
 			if (!err) {
 				if (workspace.length == 0) {
 					return callback({status: 401, message: "Workspace not found"});
@@ -57,7 +56,7 @@ module.exports = {
 	},
 
 	delete: function (workspaceId, callback) {
-		Workspace.destroy({id : workspaceId}).exec( function (err, data) {
+		Workspace.destroy({id : workspaceId}).exec(function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
 					return callback({status: 401, message: "Workspace not found"});

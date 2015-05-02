@@ -9,23 +9,17 @@ module.exports = {
 	tableName: "activity",
 
 	attributes: {
-		id: {
-			type: "int",
-			primaryKey: true,
-			autoIncrement: true
-		},
-
 		description: {
 			type: "string",
 			required : true
 		},
 
-		project_id: {
+		project: {
 			required : true,
 			model: 'project'
 		},
 
-		user_id: {
+		user: {
 			required : true,
 			model: 'user'
 		},
@@ -40,7 +34,7 @@ module.exports = {
 	},
 	
 	list: function (data, callback) {
-		Activity.find().populate('project_id', 'user_id').exec(function (err, data) {
+		Activity.find().populate('project').populate('user').exec(function (err, data) {
 			if (!err) {
 				callback(null, data);
 			} else {
@@ -50,7 +44,7 @@ module.exports = {
 	},
 
 	add: function (data, callback) {
-		Activity.create(data).populate('project_id', 'user_id').exec(function (err, activity) {
+		Activity.create(data).exec(function (err, activity) {
 			if(!err) {
 				callback(null, activity);
 			} else {
@@ -60,7 +54,7 @@ module.exports = {
 	},
 
 	edit: function (activityId, req, callback) {
-		Activity.update({id : activityId}, req).populate('project_id', 'user_id').exec(function (err, data) {
+		Activity.update({id : activityId}, req, function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
 					callback({status: 401, message: "activity not found"});

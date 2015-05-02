@@ -9,9 +9,9 @@ module.exports = {
 
 	//Get list of workspace
 	list: function (req, res) {
-		Workspace.list(req.body, function (err, user) {
+		Workspace.list(req.body, function (err, data) {
 			if (!err) {
-				res.json(user);
+				res.json(data);
 			} else {
 				res.negotiate(err);
 			}
@@ -20,9 +20,9 @@ module.exports = {
 
 	//Add new workspace
 	add: function (req, res) {
-		Workspace.add(req.body, function (err, user) {
+		Workspace.add(req.body, function (err, workspace) {
 			if (!err) {
-				res.json(user);
+				res.json(workspace);
 			} else {
 				res.negotiate(err);
 			}

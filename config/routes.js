@@ -31,30 +31,31 @@ module.exports.routes = {
   * `assets` directory)                                                      *
   *                                                                          *
   ***************************************************************************/
-  'Post /user'                      : 'UserController.add',
-  'Put /user/:id'                   : 'UserController.edit',
-  'Post /user/login'                : 'UserController.login',
-  'Get /user/logout'                : 'UserController.logout',
-  'Delete /user/:id'                : 'UserController.delete',
-  'Get /user'                       : 'UserController.list',
-  'Get /status'                     : 'UserController.status',
+  'POST /user'                      : 'UserController.add',
+  'PUT /user/:id'                   : 'UserController.edit',
+  'POST /user/login'                : 'UserController.login',
+  'GET /user/logout'                : 'UserController.logout',
+  'DELETE /user/:id'                : 'UserController.delete',
+  'GET /user'                       : 'UserController.list',
+  'GET /status'                     : 'UserController.status',
 
-  'Get /workspace'                  : 'workspaceController.list',
-  'Post /workspace'                 : 'workspaceController.add',
-  'Put /workspace/:id'              : 'workspaceController.edit',
-  'Delete /workspace/:id'           : 'workspaceController.delete',
+  'GET /workspace'                  : 'WorkspaceController.list',
+  'POST /workspace'                 : 'WorkspaceController.add',
+  'PUT /workspace/:id'              : 'WorkspaceController.edit',
+  'DELETE /workspace/:id'           : 'WorkspaceController.delete',
 
-  'Post /project'                   : 'projectController.add',
-  'Get /project'                    : 'projectController.list',
-  'Put /project'                    : 'projectController.edit',
-  'Delete /project'                 : 'projectController.delete',
+  'POST /project'                   : 'ProjectController.add',
+  'GET /project'                    : 'ProjectController.list',
+  'PUT /project/:id'                : 'ProjectController.edit',
+  'DELETE /project/:id'             : 'ProjectController.delete',
 
-  'Post /activity'                  : 'activityController.add',
-  'Get /activity'                   : 'activityController.list',
-  'Put /activity'                   : 'activityController.edit',
-  'Delete /activity'                : 'activityController.delete',
+  'POST /activity'                  : 'ActivityController.add',
+  'GET /activity'                   : 'ActivityController.list',
+  'PUT /activity/:id'               : 'ActivityController.edit',
+  'DELETE /activity/:id'            : 'ActivityController.delete',
 
-  'Post /avatar'                    : 'imageController.add'
+  'POST /avatar'                    : 'ImageController.upload',
+  'DELETE /avatar/:name'            : 'ImageController.delete'
 
   // '/': {
   //   view: 'homepage'

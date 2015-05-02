@@ -62,7 +62,7 @@ module.exports.connections = {
     port: 27017,
     // user: null,
     // password: null,
-    database: 'dash'
+    database: 'dash-new'
   },
 
   /***************************************************************************

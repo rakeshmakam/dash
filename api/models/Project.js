@@ -9,12 +9,6 @@ module.exports = {
 	tableName: "project",
 
 	attributes: {
-		id: {
-			type:"int",
-			primaryKey: true,
-			autoIncrement: true
-		},
-
 		name: {
 			type: "string",
 			required : true,
@@ -26,18 +20,19 @@ module.exports = {
 			required : true,
 		},
 
-		workspace_id: {
+		workspace: {
 			required : true,
-			model: 'workspace'
+			model: 'Workspace'
 		},
 
-		user_id: {
-			model: 'user'
+		users: {
+			collection: 'User',
+			via: 'projects'
 		}
 	},
 
 	list: function (data, callback) {
-		Project.find().populate('workspace_id', 'user_id').exec(function (err, data) {
+		Project.find().populate('workspace').populate('users').exec(function (err, data) {
 			if (!err) {
 				callback(null, data);
 			} else {
@@ -60,7 +55,7 @@ module.exports = {
 		Project.update({id : projectId}, req, function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
-					callback({status: 401, message: "Project not found"});
+					callback({status: 404, message: "Project not found"});
 				} else {
 					callback(null, data);
 				}
@@ -74,7 +69,7 @@ module.exports = {
 		Project.destroy({id : projectId}).exec( function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
-					return callback({status: 401, message: "Project not found"});
+					return callback({status: 404, message: "Project not found"});
 				} else {
 					return callback(null, data.id);
 				}

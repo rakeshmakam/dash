@@ -10,12 +10,6 @@ module.exports = {
 	tableName: "user",
   
   	attributes: {
-		id: {
-			type:"int",
-			primaryKey: true,
-			autoIncrement: true
-		},
-
 		email: {
 			type: "email",
 			required : true,
@@ -53,11 +47,16 @@ module.exports = {
 
 		role: {
 			type: "string"
+		},
+
+		projects: {
+			collection: 'Project',
+			via: 'users'
 		}
 	},
 
 	list: function (data, callback) {
-		User.find().exec(function(err, data){
+		User.find().populate("projects").exec(function (err, data) {
 			if (!err) {
 				callback(null, data);
 			} else {
@@ -68,7 +67,7 @@ module.exports = {
 
 	add: function (data, callback) {
 		data.role = 'user';
-		User.create(data, function(err, user){
+		User.create(data, function (err, user) {
 			if(!err) {
 				delete user['password'];
 				callback(null, user);
@@ -85,7 +84,7 @@ module.exports = {
 			});
 		};
 
-		User.update({id : userId}, req, function(err, data){
+		User.update({id : userId}, req, function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
 					return callback({status: 401, message: "User not found"});
@@ -100,12 +99,12 @@ module.exports = {
 	},
 
 	login: function (opts, callback) {
-		User.findOne({where: {email: opts.email}}).exec(function(err, user){
+		User.findOne({where: {email: opts.email}}).populate("projects").exec(function (err, user) {
 			if (err) {
 				callback(err);
 			} else if(user) {
 				// if (user.email_verified){
-					validatePassword(opts.password, user.password, function(res){
+					validatePassword(opts.password, user.password, function (res) {
 						if(res) {
 							delete user['password'];
 							callback(null,user);
@@ -124,7 +123,7 @@ module.exports = {
 
 	//For Deleting the user
 	delete: function (userId, callback) {
-		User.destroy({id : userId}).exec( function (err, data) {
+		User.destroy({id : userId}).exec(function (err, data) {
 			if (!err) {
 				console.log(data);
 				if (data.length == 0) {
@@ -149,16 +148,16 @@ var generateSalt = function() {
 	return salt;
 };
 
-var md5 = function(str) {
+var md5 = function (str) {
 	return crypto.createHash('md5').update(str).digest('hex');
 };
 
-var saltAndHash = function(pass, callback) {
+var saltAndHash = function (pass, callback) {
 	var salt = generateSalt();
 	callback(salt + md5(pass + salt));
 };
 
-var validatePassword = function(plainPass, hashedPass, callback) {
+var validatePassword = function (plainPass, hashedPass, callback) {
 	var salt = hashedPass.substr(0, 10);
 	var validHash = salt + md5(plainPass + salt);
 	callback(hashedPass === validHash);

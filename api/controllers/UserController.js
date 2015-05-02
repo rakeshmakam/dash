@@ -21,11 +21,12 @@ module.exports = {
 	add: function (req, res) {
 		User.add(req.body, function (err, user) {
 			if (!err) {
+				res.json(user);
 				EmailService.send(user, function(error, data){
 					if (!error) {
-						res.json(user);
+						sails.log.debug(data);
 					} else {
-						res.negotiate(error);
+						sails.log.error(error);
 					}
 				});
 			} else {

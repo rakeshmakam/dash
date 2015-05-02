@@ -54,6 +54,6 @@ module.exports = {
         } else {
         	res.status(401).json({message: "ID is missing"});
         }
-    },
+    }
 };
 
