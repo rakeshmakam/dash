@@ -109,11 +109,11 @@ module.exports = {
 							delete user['password'];
 							callback(null,user);
 						} else {
-							callback({status: 400, message: "Email or password does not match"});
+							callback({status: 401, message: "Email or password does not match"});
 						}
 					});
 				} else {
-					callback({status: 400, message: "Please confirm your email"});
+					callback({status: 401, message: "Please confirm your email"});
 				}
 			} else {
 				callback({status: 401, message: "User does not exists"});
