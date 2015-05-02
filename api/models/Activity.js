@@ -21,12 +21,12 @@ module.exports = {
 		},
 
 		project_id: {
-			required : true
+			required : true,
 			model: 'project'
 		},
 
 		user_id: {
-			required : true
+			required : true,
 			model: 'user'
 		},
 
