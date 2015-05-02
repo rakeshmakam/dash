@@ -90,6 +90,7 @@ module.exports = {
 				if (data.length == 0) {
 					return callback({status: 401, message: "User not found"});
 				} else {
+					delete data['password'];
 					return callback(null, data);
 				}
 			} else {
