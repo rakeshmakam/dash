@@ -43,7 +43,7 @@ module.exports = {
 			type: "string"
 		},
 
-		photo: {
+		avatar: {
 			type: "string"
 		},
 
@@ -104,7 +104,7 @@ module.exports = {
 			if (err) {
 				callback(err);
 			} else if(user) {
-				if (user.email_verified){
+				// if (user.email_verified){
 					validatePassword(opts.password, user.password, function(res){
 						if(res) {
 							delete user['password'];
@@ -113,9 +113,9 @@ module.exports = {
 							callback({status: 401, message: "Email or password does not match"});
 						}
 					});
-				} else {
-					callback({status: 401, message: "Please confirm your email"});
-				}
+				// } else {
+				// 	callback({status: 401, message: "Please confirm your email"});
+				// }
 			} else {
 				callback({status: 401, message: "User does not exists"});
 			} 

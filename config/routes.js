@@ -52,7 +52,9 @@ module.exports.routes = {
   'Post /activity'                  : 'activityController.add',
   'Get /activity'                   : 'activityController.list',
   'Put /activity'                   : 'activityController.edit',
-  'Delete /activity'                : 'activityController.delete'
+  'Delete /activity'                : 'activityController.delete',
+
+  'Post /avatar'                    : 'imageController.add'
 
   // '/': {
   //   view: 'homepage'
