@@ -1,7 +1,6 @@
 var fs = require('fs');
 var AWS = require('aws-sdk');
-console.log(process.env.AWS_ACCESS_KEY);
-console.log(process.env.AWS_SECRET_KEY);
+
 var accessKeyId =  process.env.AWS_ACCESS_KEY;
 var secretAccessKey = process.env.AWS_SECRET_KEY;
 
