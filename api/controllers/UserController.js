@@ -17,7 +17,7 @@ module.exports = {
                         obj.avatar = base_url + obj.avatar;
                     return obj;
                 });
-				res.json(user);
+				res.json(users);
 			} else {
 				res.negotiate(err);
 			}
