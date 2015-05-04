@@ -60,7 +60,7 @@ module.exports = {
 		Project.update({id : projectId}, req, function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
-					callback({status: 404, message: "Project not found"});
+					callback({status: 402, message: "Project not found"});
 				} else {
 					callback(null, data);
 				}
@@ -74,7 +74,7 @@ module.exports = {
 		Project.destroy({id : projectId}).exec( function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
-					return callback({status: 404, message: "Project not found"});
+					return callback({status: 402, message: "Project not found"});
 				} else {
 					return callback(null, data.id);
 				}
@@ -88,7 +88,7 @@ module.exports = {
     	Project.find({id : projectId}).populate('workspace').populate('users').populate('activity').exec( function (err, project) {
 			if (!err) {
 				if (project.length == 0) {
-					return callback({status: 404, message: "Project not found"});
+					return callback({status: 402, message: "Project not found"});
 				} else {
 					return callback(null, project);
 				}

@@ -53,7 +53,7 @@ module.exports = {
 				}
 			});
 		} else {
-			res.status(401).json({message: "ID is missing"});
+			res.status(400).json({message: "ID is missing"});
 		}
 	},
 };

@@ -87,7 +87,7 @@ module.exports = {
 		User.update({id : userId}, req, function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
-					return callback({status: 404, message: "User not found"});
+					return callback({status: 402, message: "User not found"});
 				} else {
 					delete data['password'];
 					return callback(null, data);
@@ -109,14 +109,14 @@ module.exports = {
 							delete user['password'];
 							callback(null,user);
 						} else {
-							callback({status: 404, message: "Email or password does not match"});
+							callback({status: 402, message: "Email or password does not match"});
 						}
 					});
 				// } else {
-				// 	callback({status: 401, message: "Please confirm your email"});
+				// 	callback({status: 400, message: "Please confirm your email"});
 				// }
 			} else {
-				callback({status: 404, message: "User does not exists"});
+				callback({status: 402, message: "User does not exists"});
 			} 
 	    });
 	},
@@ -127,7 +127,7 @@ module.exports = {
 			if (!err) {
 				console.log(data);
 				if (data.length == 0) {
-					return callback({status: 404, message: "User not found"});
+					return callback({status: 402, message: "User not found"});
 				} else {
 					return callback(null, data.id);
 				}

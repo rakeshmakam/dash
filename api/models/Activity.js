@@ -57,7 +57,7 @@ module.exports = {
 		Activity.update({id : activityId}, req, function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
-					callback({status: 401, message: "activity not found"});
+					callback({status: 400, message: "activity not found"});
 				} else {
 					callback(null, data);
 				}
@@ -71,7 +71,7 @@ module.exports = {
 		Activity.destroy({id : activityId}).exec( function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
-					return callback({status: 401, message: "activity not found"});
+					return callback({status: 400, message: "activity not found"});
 				} else {
 					return callback(null, data.id);
 				}
