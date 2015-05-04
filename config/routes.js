@@ -46,6 +46,7 @@ module.exports.routes = {
 
   'POST /project'                   : 'ProjectController.add',
   'GET /project'                    : 'ProjectController.list',
+  'GET /project/:id'                : 'ProjectController.projectDetails',
   'PUT /project/:id'                : 'ProjectController.edit',
   'DELETE /project/:id'             : 'ProjectController.delete',
 

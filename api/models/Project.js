@@ -25,6 +25,11 @@ module.exports = {
 			model: 'Workspace'
 		},
 
+		activity: {
+			collection: 'Activity',
+			via: 'project'
+		},
+
 		users: {
 			collection: 'User',
 			via: 'projects'
@@ -72,6 +77,20 @@ module.exports = {
 					return callback({status: 404, message: "Project not found"});
 				} else {
 					return callback(null, data.id);
+				}
+			} else {
+				return callback(err);
+			}
+		});
+    },
+
+    projectDetails: function (projectId, callback) {
+    	Project.find({id : projectId}).populate('workspace').populate('users').populate('activity').exec( function (err, project) {
+			if (!err) {
+				if (project.length == 0) {
+					return callback({status: 404, message: "Project not found"});
+				} else {
+					return callback(null, project);
 				}
 			} else {
 				return callback(err);

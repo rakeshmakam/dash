@@ -44,14 +44,29 @@ module.exports = {
     delete: function (req, res){
     	var projectId = req.param('id');
         if (projectId) {
-        	Project.delete(projectId, function (err, project) {
-        		if (!err) {
-        			res.json("Deleted Successfully");
-        		} else { 
-        			res.negotiate(err);
-        		}
-        	})
+			Project.delete(projectId, function (err, project) {
+				if (!err) {
+					res.json("Deleted Successfully");
+				} else { 
+					res.negotiate(err);
+				}
+			})
         } else {
+        	res.status(401).json({message: "ID is missing"});
+        }
+    },
+
+    projectDetails: function (req, res) {
+    	var projectId = req.param('id');
+    	if (projectId) {
+    		Project.projectDetails(projectId, function (err, project) {
+				if (!err) {
+					res.json(project);
+				} else { 
+					res.negotiate(err);
+				}
+			})
+    	} else {
         	res.status(401).json({message: "ID is missing"});
         }
     }

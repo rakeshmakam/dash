@@ -16,12 +16,12 @@ module.exports = {
 
 		project: {
 			required : true,
-			model: 'project'
+			model: 'Project'
 		},
 
 		user: {
 			required : true,
-			model: 'user'
+			model: 'User'
 		},
 
 		// likes: {
