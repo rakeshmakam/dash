@@ -40,7 +40,7 @@ module.exports.routes = {
   'GET /status'                     : 'UserController.status',
 
   'GET /workspace'                  : 'WorkspaceController.list',
-  'GET /workspace/:id'              : 'WorkspaceController.workspaceDetails'
+  'GET /workspace/:id'              : 'WorkspaceController.workspaceDetails',
   'POST /workspace'                 : 'WorkspaceController.add',
   'PUT /workspace/:id'              : 'WorkspaceController.edit',
   'DELETE /workspace/:id'           : 'WorkspaceController.delete',
