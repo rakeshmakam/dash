@@ -69,6 +69,21 @@ module.exports = {
     	} else {
         	res.status(400).json({message: "ID is missing"});
         }
+    },
+
+    getProjectsDetailsRelatedToWorkspace: function (req, res) {
+    	var workspaceId = req.param('id');
+    	if (workspaceId) {
+    		Project.getProjectsDetailsRelatedToWorkspace(workspaceId, function (err, activitys) { 
+    			if (!err) {
+    				res.json(activitys);
+    			} else {
+    				res.negotiate(err);
+    			};
+    		})
+    	} else {
+    		res.status(400).json({message: "ID is missing"});
+    	}
     }
 };
 

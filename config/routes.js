@@ -51,6 +51,9 @@ module.exports.routes = {
   'PUT /project/:id'                : 'ProjectController.edit',
   'DELETE /project/:id'             : 'ProjectController.delete',
 
+  'GET /projects_related_to_workspace/:id' : 'ProjectController.getProjectsDetailsRelatedToWorkspace',
+
+
   'POST /activity'                  : 'ActivityController.add',
   'GET /activity'                   : 'ActivityController.list',
   'PUT /activity/:id'               : 'ActivityController.edit',

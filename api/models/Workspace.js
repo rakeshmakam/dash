@@ -22,7 +22,7 @@ module.exports = {
 	},
 
 	list: function (data, callback) {
-		Workspace.find().populate("projects").exec(function (err, data) {
+		Workspace.find().populateAll().exec(function (err, data) {
 			if (!err) {
 				callback(null, data);
 			} else {
@@ -70,7 +70,7 @@ module.exports = {
     },
 
     workspaceDetails: function (workspaceId, callback) {
-    	Workspace.find({id : workspaceId}).populate('projects').exec( function (err, workspace) {
+    	Workspace.find({id : workspaceId}).populateAll().exec( function (err, workspace) {
 			if (!err) {
 				if (workspace.length == 0) {
 					return callback({status: 402, message: "Workspace not found"});

@@ -37,7 +37,7 @@ module.exports = {
 	},
 
 	list: function (data, callback) {
-		Project.find().populate('workspace').populate('users').exec(function (err, data) {
+		Project.find().populateAll().exec(function (err, data) {
 			if (!err) {
 				callback(null, data);
 			} else {
@@ -85,7 +85,7 @@ module.exports = {
     },
 
     projectDetails: function (projectId, callback) {
-    	Project.find({id : projectId}).populate('workspace').populate('users').populate('activity').exec( function (err, project) {
+    	Project.find({id : projectId}).populateAll().exec( function (err, project) {
 			if (!err) {
 				if (project.length == 0) {
 					return callback({status: 402, message: "Project not found"});
@@ -96,6 +96,20 @@ module.exports = {
 				return callback(err);
 			}
 		});
+    },
+
+    getProjectsDetailsRelatedToWorkspace: function (workspaceId, callback) {
+    	Project.find({workspace : workspaceId}).populateAll().exec( function (err, projects) {
+    		if (!err) {
+				if (projects.length == 0) {
+					return callback({status: 402, message: "There are no projects under this workspace or there is no such workspace"});
+				} else {
+					return callback(null, projects);
+				}
+			} else {
+				return callback(err);
+			}
+    	})
     }
 };
 
