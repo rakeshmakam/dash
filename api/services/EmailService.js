@@ -5,8 +5,8 @@ var hbs = require('nodemailer-express-handlebars');
 var options = {
     service: 'Gmail',
     auth: {
-        user: 'saurabh@mantralabsglobal.com',
-        pass: 'achiveyourg0al'
+        user: 'm.balu0007@gmail.com',
+        pass: 'balamovvar'
     }
 }
 

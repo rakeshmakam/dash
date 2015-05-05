@@ -28,13 +28,6 @@ module.exports = {
 	add: function (req, res) {
 		User.add(req.body, function (err, user) {
 			if (!err) {
-				user = user.map(function(obj){ 
-                    delete obj.password
-                    if(obj.avatar)
-                        obj.avatar = base_url + obj.avatar;
-                    return obj;
-                });
-                
 				res.json(user);
 
 				EmailService.send(user, function(error, data){
