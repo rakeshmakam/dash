@@ -8,7 +8,8 @@
 module.exports = {
 	//Get list of project
 	list: function (req, res) {
-		Project.list(req.body, function (err, projects) {
+		var user = req.session.user;
+		Project.list(user, function (err, projects) {
 			if (!err) {
 				res.json(projects);
 			} else {

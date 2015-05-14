@@ -36,14 +36,24 @@ module.exports = {
 		}
 	},
 
-	list: function (data, callback) {
-		Project.find().populateAll().exec(function (err, data) {
-			if (!err) {
-				callback(null, data);
-			} else {
-				callback(err);
-			}
-		});
+	list: function (user, callback) {
+		if(user.role == 'admin'){
+			Project.find().exec(function (err, projects) {
+				if (!err) {
+					callback(null, projects);
+				} else {
+					callback(err);
+				}
+			});
+		}else{
+			User.findOne({id: user.id}).populate('projects').exec(function (err, user) {
+				if (!err) {
+					callback(null, user.projects);
+				} else {
+					callback(err);
+				}
+			});
+		}
 	},
 
 	add: function (data, callback) {

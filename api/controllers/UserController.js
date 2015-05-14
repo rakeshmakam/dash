@@ -105,7 +105,7 @@ module.exports = {
         if (req.session.user)
             res.json(req.session.user);
         else
-            res.status(400).json({message: "user is not logged in"});
+            res.status(401).json({message: "user is not logged in"});
     },
 };
 
