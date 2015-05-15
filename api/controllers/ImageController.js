@@ -20,7 +20,6 @@ module.exports = {
 
 	//For Deleting the image
 	delete: function (req, res){
-        sails.log.debug(req.param('name'));
 		var imageName = req.param('name');
         if (imageName) {
             Image.delete(imageName, function (err, data) {

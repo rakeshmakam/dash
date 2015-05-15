@@ -4,7 +4,8 @@
  * @description :: Server-side logic for managing users
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-var base_url = "https://s3-us-west-2.amazonaws.com/mantra-dash/avatar/"; 
+var base_url = "https://s3-ap-southeast-1.amazonaws.com/mantra-dash/avatar/"; 
+
 
 module.exports = {
 	//Get list of user

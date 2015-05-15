@@ -31,11 +31,12 @@ module.exports = {
 				delete data['subfolder'];
 				delete data['data'];
 				delete data['ext'];
-				sails.log.debug(data);
 				Image.create(data, function(err, imageData){
 					if(err) {
+						sails.log.debug(err)
 						callback(err);
 					} else {
+						sails.log.debug(imageData)
 						callback(null, imageData);
 					}
 				});

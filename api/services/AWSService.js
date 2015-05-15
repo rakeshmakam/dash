@@ -14,7 +14,7 @@ var s3 = new AWS.S3();
 exports.upload = function (doc, cb) {
     doc.name = doc.name + "." + doc.ext;
     var bucket = process.env.AWS_S3_IMG_BUCKET;
-
+    sails.log.debug(bucket)
     var uploader = function (params) {
         s3.putObject(params, function (err, res) {
             if (err) {
