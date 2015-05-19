@@ -44,10 +44,48 @@ module.exports = {
 		})
 	},
 
+	//Receive email from view and reset link to email id.
+	resetPasswordInitiate : function(req, res){
+    	if(req.body.email){
+			User.resetPasswordInitiate(req.body.email, function(err, user){
+				if(!err){
+					res.json(user);
+
+					EmailService.resetPassword(user, function(err, user){
+						if(!err) {
+							sails.log.debug('controller',user);
+						} else{
+							sails.log.debug(error);
+						}
+					});
+				}
+				else{
+					res.negotiate(err);
+				}
+			});
+    	}
+    },
+
+    //reset the password
+    resetPassword : function(req, res){
+    	console.log(req.body);
+    	if(req.body.hashKey && req.body.password){
+    		User.resetPassword(req.body, function (err, user) {
+    			if (!err) {
+    				res.json("Password has been reset successfully.");
+    			} else {
+    				res.negotiate(err);
+    			}
+    		})
+    	} else {
+    		res.status(400).json({message: "Password or hashKey is missing"});
+    	}
+    },
+
 	//Edit the User Detail
 	edit: function (req, res) {
-		var userId = req.param('id');
-		User.edit(userId, req.body, function (err, user) {
+		var user = req.session.user;
+		User.edit(user.id, req.body, function (err, user) {
 			if (!err) {
 				user = user.map(function(obj){ 
                     delete obj.password
@@ -64,6 +102,7 @@ module.exports = {
 
 	//Login API
     login: function(req, res){
+    	sails.log.debug(req.body);
 		if (!req.body || !req.body.email || !req.body.password) {
 			res.badRequest('Email or password missing in request');
 		} else {
@@ -107,6 +146,6 @@ module.exports = {
             res.json(req.session.user);
         else
             res.status(401).json({message: "user is not logged in"});
-    },
+    }
 };
 

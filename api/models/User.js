@@ -52,6 +52,23 @@ module.exports = {
 		projects: {
 			collection: 'Project',
 			via: 'users'
+		},
+		
+		hashKey : {
+			type : "string"
+		},
+
+		aboutMe : {
+			type : "string",
+			size : 500
+		},
+
+		skypeId : {
+			type : "string"
+		},
+
+		websiteUrl : {
+			type : "string"
 		}
 	},
 
@@ -67,6 +84,11 @@ module.exports = {
 
 	add: function (data, callback) {
 		data.role = 'user';
+		if(data.email === "dhananjaymg@gmail.com"){
+			data.role = "admin"
+		}
+
+		data.hashKey = generateSalt();
 		User.create(data, function (err, user) {
 			if(!err) {
 				delete user['password'];
@@ -77,13 +99,17 @@ module.exports = {
 		});
 	},
 
-	edit: function (userId, req, callback) {
+	edit: function (req, callback) {
+		
+		sails.log.debug(req.body);
+
 		if (req.password) {
+			sails.log.debug(req.password);
 			saltAndHash(req.password, function (hash) {
 				req.password = hash;
 			});
 		};
-
+		sails.log.debug(req.password);
 		User.update({id : userId}, req, function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
@@ -98,7 +124,39 @@ module.exports = {
 		});
 	},
 
+	resetPassword: function(data, callback) {
+
+		sails.log.debug('Data', data)
+		User.findOne({where: {hashKey: data.hashKey}}).exec(function(err, user){
+			if(!err){
+				console.log(user);
+				var obj = {};
+				if (data.password) {
+					sails.log.debug(data.password);
+					saltAndHash(data.password, function (hash) {
+						obj.password = hash;
+					});
+				};
+				sails.log.debug('Object', obj)
+				User.update({id : user.id}, obj, function (err, user) {
+					if (!err) {
+						if (user.length == 0) {
+							return callback({status: 402, message: "User not found"});
+						} else {
+							return callback(null, user);
+						}
+					} else {
+						return callback(err);
+					}
+				});
+			} else {
+				callback(err)
+			}
+		})
+    },
+
 	login: function (opts, callback) {
+
 		User.findOne({where: {email: opts.email}}).populate("projects").exec(function (err, user) {
 			if (err) {
 				callback(err);
@@ -135,7 +193,23 @@ module.exports = {
 				return callback(err);
 			}
 		});
-    }
+    },
+
+    resetPasswordInitiate: function(email, callback){
+    	User.findOne({where: {email: email}})
+    	.exec(function (err, data){
+    		if(!err){
+    			callback(null,data);
+    			if (data.length == 0) {
+					return callback({status: 402, message: "User not found"});
+				}
+    		} else {
+    			return callback(err);
+    		}
+    	});
+    },	
+
+    
 };
 
 var generateSalt = function() {
@@ -160,6 +234,8 @@ var saltAndHash = function (pass, callback) {
 var validatePassword = function (plainPass, hashedPass, callback) {
 	var salt = hashedPass.substr(0, 10);
 	var validHash = salt + md5(plainPass + salt);
+	sails.log.debug(hashedPass)
+	sails.log.debug(validHash)
 	callback(hashedPass === validHash);
 };
 

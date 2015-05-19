@@ -29,5 +29,22 @@ exports.send = function(data, cb) {
 			cb(null, res);
 		}
 	});
+};
 
+exports.resetPassword = function(data, cb) {
+	var mail = {
+		from: 'Dash <noreply@dash.com>',
+		to: data.email,
+		subject: 'Dash invitation to Reset Password',
+		template: 'resetpassword',
+		context: data
+	}
+
+	transporter.sendMail(mail, function(err, res){
+		if (err) { 
+			cb(err);
+		}else{
+			cb(null, res);
+		}
+	});
 }
