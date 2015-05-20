@@ -82,27 +82,43 @@ module.exports = {
     	}
     },
 
+    basicInfo : function(req, res){
+    	if(req.body.hashKey && req.body.password && req.body.name){
+    		User.basicInfo(req.body, function (err, user) {
+    			sails.log.debug(user);
+    			if (!err) {
+    				res.json("Information Updated successfully, You can login Now");
+    			} else {
+    				res.negotiate(err);
+    			}
+    		})
+    	} else {
+    		res.status(400).json({message: "Password or hashKey is missing"});
+    	}
+    },
+
 	//Edit the User Detail
 	edit: function (req, res) {
-		var user = req.session.user;
-		User.edit(user.id, req.body, function (err, user) {
-			if (!err) {
-				user = user.map(function(obj){ 
-                    delete obj.password
-                    if(obj.avatar)
-                        obj.avatar = base_url + obj.avatar;
-                    return obj;
-                });
-				res.json(user);
-			} else {
-				res.negotiate(err);
-			}
-		});
+		// var user = req.session.user;
+		if(req.body.hashKey && req.body.password){
+			User.edit(req.body.hashKey, req.body, function (err, user) {
+				if (!err) {
+					user = user.map(function(obj){
+	                    delete obj.password
+	                    if(obj.avatar)
+	                        obj.avatar = base_url + obj.avatar;
+	                    return obj;
+	                });
+					res.json(user);
+				} else {
+					res.negotiate(err);
+				}
+			});
+		}
 	},
 
 	//Login API
     login: function(req, res){
-    	sails.log.debug(req.body);
 		if (!req.body || !req.body.email || !req.body.password) {
 			res.badRequest('Email or password missing in request');
 		} else {

@@ -82,8 +82,11 @@ module.exports = {
 		});
 	},
 
+	//adding user by admin
 	add: function (data, callback) {
+
 		data.role = 'user';
+		//Hardcode value Later remove it.
 		if(data.email === "dhananjaymg@gmail.com"){
 			data.role = "admin"
 		}
@@ -99,6 +102,7 @@ module.exports = {
 		});
 	},
 
+	//logged in user can edit his details
 	edit: function (req, callback) {
 		
 		sails.log.debug(req.body);
@@ -113,17 +117,39 @@ module.exports = {
 		User.update({id : userId}, req, function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
-					return callback({status: 402, message: "User not found"});
+					callback({status: 402, message: "User not found"});
 				} else {
 					delete data['password'];
-					return callback(null, data);
+					callback(null, data);
 				}
 			} else {
-				return callback(err);
+				callback(err);
 			}
 		});
 	},
 
+	//Collect the basic info when user gets mail from Admin to access the Dash Site
+	basicInfo: function (req, callback) {
+		
+		if (req.password) {
+			saltAndHash(req.password, function (hash) {
+				req.password = hash;
+			});
+		};
+		User.update({where :{hashKey : req.hashKey}}, req, function (err, user) {
+			if (!err) {
+				if (user.length == 0) {
+					callback({status: 402, message: "User not found."});
+				} else {
+					callback(null, user);
+				}
+			} else {
+				callback(err);
+			}
+		});
+	},
+
+	//resetting the password
 	resetPassword: function(data, callback) {
 
 		sails.log.debug('Data', data)
@@ -141,12 +167,12 @@ module.exports = {
 				User.update({id : user.id}, obj, function (err, user) {
 					if (!err) {
 						if (user.length == 0) {
-							return callback({status: 402, message: "User not found"});
+							callback({status: 402, message: "User not found"});
 						} else {
-							return callback(null, user);
+							callback(null, user);
 						}
 					} else {
-						return callback(err);
+						callback(err);
 					}
 				});
 			} else {
@@ -155,6 +181,7 @@ module.exports = {
 		})
     },
 
+    //login 
 	login: function (opts, callback) {
 
 		User.findOne({where: {email: opts.email}}).populate("projects").exec(function (err, user) {
@@ -185,26 +212,27 @@ module.exports = {
 			if (!err) {
 				console.log(data);
 				if (data.length == 0) {
-					return callback({status: 402, message: "User not found"});
+					callback({status: 402, message: "User not found"});
 				} else {
-					return callback(null, data.id);
+					callback(null, data.id);
 				}
 			} else {
-				return callback(err);
+				callback(err);
 			}
 		});
     },
 
+    //forgot password or reset password send email method with HashKey
     resetPasswordInitiate: function(email, callback){
     	User.findOne({where: {email: email}})
     	.exec(function (err, data){
     		if(!err){
     			callback(null,data);
     			if (data.length == 0) {
-					return callback({status: 402, message: "User not found"});
+					callback({status: 402, message: "User not found"});
 				}
     		} else {
-    			return callback(err);
+    			callback(err);
     		}
     	});
     },	
