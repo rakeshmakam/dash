@@ -13,7 +13,8 @@ module.exports = {
 		User.list(req.body, function (err, users) {
 			if (!err) {
 				users = users.map(function(obj){ 
-                    delete obj.password
+                    delete obj.password,
+                    delete obj.hashKey
                     if(obj.avatar)
                         obj.avatar = base_url + obj.avatar;
                     return obj;

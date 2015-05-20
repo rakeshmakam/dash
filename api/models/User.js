@@ -105,15 +105,11 @@ module.exports = {
 	//logged in user can edit his details
 	edit: function (req, callback) {
 		
-		sails.log.debug(req.body);
-
 		if (req.password) {
-			sails.log.debug(req.password);
 			saltAndHash(req.password, function (hash) {
 				req.password = hash;
 			});
 		};
-		sails.log.debug(req.password);
 		User.update({id : userId}, req, function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
@@ -152,18 +148,14 @@ module.exports = {
 	//resetting the password
 	resetPassword: function(data, callback) {
 
-		sails.log.debug('Data', data)
 		User.findOne({where: {hashKey: data.hashKey}}).exec(function(err, user){
 			if(!err){
-				console.log(user);
 				var obj = {};
 				if (data.password) {
-					sails.log.debug(data.password);
 					saltAndHash(data.password, function (hash) {
 						obj.password = hash;
 					});
 				};
-				sails.log.debug('Object', obj)
 				User.update({id : user.id}, obj, function (err, user) {
 					if (!err) {
 						if (user.length == 0) {
@@ -178,7 +170,7 @@ module.exports = {
 			} else {
 				callback(err)
 			}
-		})
+		});
     },
 
     //login 
@@ -210,7 +202,6 @@ module.exports = {
 	delete: function (userId, callback) {
 		User.destroy({id : userId}).exec(function (err, data) {
 			if (!err) {
-				console.log(data);
 				if (data.length == 0) {
 					callback({status: 402, message: "User not found"});
 				} else {
@@ -235,9 +226,7 @@ module.exports = {
     			callback(err);
     		}
     	});
-    },	
-
-    
+    }
 };
 
 var generateSalt = function() {
@@ -262,8 +251,6 @@ var saltAndHash = function (pass, callback) {
 var validatePassword = function (plainPass, hashedPass, callback) {
 	var salt = hashedPass.substr(0, 10);
 	var validHash = salt + md5(plainPass + salt);
-	sails.log.debug(hashedPass)
-	sails.log.debug(validHash)
 	callback(hashedPass === validHash);
 };
 
