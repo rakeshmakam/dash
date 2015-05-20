@@ -49,11 +49,21 @@ module.exports.policies = {
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
 
-  ProjectController: {
-    list: ['sessionAuth']
+   UserController: {
+    edit: ['sessionAuth']
   },
 
-  UserController: {
-    edit: ['sessionAuth']
+  ProjectController: {
+    list: ['sessionAuth'],
+    add : ['isAdmin'],
+    edit: ['isAdmin'],
+    delete : ['isAdmin']
+  },
+
+  WorkspaceController:{
+    add : ['isAdmin'],
+    edit: ['isAdmin'],
+    delete : ['isAdmin']
   }
+
 };
