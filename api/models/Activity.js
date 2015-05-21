@@ -34,7 +34,7 @@ module.exports = {
 	},
 	
 	list: function (data, callback) {
-		Activity.find().populate('project').populate('user').exec(function (err, data) {
+		Activity.find().sort('createdAt desc').populate('project').populate('user').exec(function (err, data) {
 			if (!err) {
 				callback(null, data);
 			} else {

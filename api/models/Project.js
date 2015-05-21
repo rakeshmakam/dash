@@ -72,6 +72,7 @@ module.exports = {
 				if (data.length == 0) {
 					callback({status: 402, message: "Project not found"});
 				} else {
+					sails.log.debug(data);
 					callback(null, data);
 				}
 			} else {
