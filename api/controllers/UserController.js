@@ -26,6 +26,19 @@ module.exports = {
 		});
 	},
 
+	userInfo: function (req, res){
+
+		User.getUserInfo(req.param('id'), function (err, user){
+			if (!err) {
+				delete user.password;
+				delete user.hashKey;
+				res.json(user);
+			} else {
+				res.negotiate(err);
+			}
+		});
+	}, 
+
 	// User Registration
 	add: function (req, res) {
 		User.add(req.body, function (err, user) {

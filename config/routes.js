@@ -41,6 +41,7 @@ module.exports.routes = {
   'DELETE /user/:id'                : 'UserController.delete',
   'GET /user'                       : 'UserController.list',
   'GET /status'                     : 'UserController.status',
+  'GET /user_info/:id'              : 'UserController.userInfo',
 
   'GET /workspace'                  : 'WorkspaceController.list',
   'GET /workspace/:id'              : 'WorkspaceController.workspaceDetails',
