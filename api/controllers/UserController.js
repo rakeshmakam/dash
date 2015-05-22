@@ -6,7 +6,6 @@
  */
 var base_url = "https://s3-ap-southeast-1.amazonaws.com/mantra-dash/avatar/"; 
 
-
 module.exports = {
 	//Get list of user
 	list: function (req, res) {
