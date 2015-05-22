@@ -33,8 +33,8 @@ module.exports.routes = {
   ***************************************************************************/
   'POST /user'                      : 'UserController.add',
   'PUT /user'                       : 'UserController.edit',
-  'POST /resetPasswordInitiate'     : 'UserController.resetPasswordInitiate',
-  'PUT /resetPassword'              : 'UserController.resetPassword',
+  'POST /reset_password_initiate'   : 'UserController.resetPasswordInitiate',
+  'PUT /reset_password'             : 'UserController.resetPassword',
   'PUT /basicInfo'                  : 'UserController.basicInfo',
   'POST /user/login'                : 'UserController.login',
   'GET /user/logout'                : 'UserController.logout',
