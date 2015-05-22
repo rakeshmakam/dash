@@ -114,28 +114,6 @@ module.exports = {
 		});
 	},
 
-	// //logged in user can edit his details
-	// edit: function (req, callback) {
-		
-	// 	if (req.password) {
-	// 		saltAndHash(req.password, function (hash) {
-	// 			req.password = hash;
-	// 		});
-	// 	};
-	// 	User.update({id : userId}, req, function (err, data) {
-	// 		if (!err) {
-	// 			if (data.length == 0) {
-	// 				callback({status: 402, message: "User not found"});
-	// 			} else {
-	// 				delete data['password'];
-	// 				callback(null, data);
-	// 			}
-	// 		} else {
-	// 			callback(err);
-	// 		}
-	// 	});
-	// },
-
 	//logged in user can edit his details
 	edit: function (userId, data, callback) {
 		
@@ -144,11 +122,8 @@ module.exports = {
 				data.password = hash;
 			});
 		};
-
-		sails.log.debug('data', data);
 		User.update({id : userId}, data, function (err, user) {
 			if (!err) {
-				sails.log.debug('response', user);
 				if (user.length == 0) {
 					callback({status: 402, message: "User not found"});
 				} else {
