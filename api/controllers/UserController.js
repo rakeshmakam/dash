@@ -110,19 +110,44 @@ module.exports = {
     	}
     },
 
+	// //Edit the User Detail
+	// edit: function (req, res) {
+	// 	// var user = req.session.user;
+	// 	if(req.body.hashKey && req.body.password){
+	// 		User.edit(req.body.hashKey, req.body, function (err, user) {
+	// 			if (!err) {
+	// 				user = user.map(function(obj){
+	//                     delete obj.password
+	//                     if(obj.avatar)
+	//                         obj.avatar = base_url + obj.avatar;
+	//                     return obj;
+	//                 });
+	// 				res.json(user);
+	// 			} else {
+	// 				res.negotiate(err);
+	// 			}
+	// 		});
+	// 	}
+	// },
+
 	//Edit the User Detail
 	edit: function (req, res) {
-		// var user = req.session.user;
-		if(req.body.hashKey && req.body.password){
-			User.edit(req.body.hashKey, req.body, function (err, user) {
+		var userId = req.session.user.id;
+
+		sails.log.debug('ctrl', req.body);
+
+		if(userId){
+			User.edit(userId, req.body, function (err, user) {
 				if (!err) {
-					user = user.map(function(obj){
-	                    delete obj.password
-	                    if(obj.avatar)
-	                        obj.avatar = base_url + obj.avatar;
-	                    return obj;
-	                });
+					// user = user.map(function(obj){
+	    //                 // delete obj.password
+	    //                 if(obj.avatar)
+	    //                     obj.avatar = base_url + obj.avatar;
+	    //                 return obj;
+	    //             });
+					sails.log.debug('user resp', user);
 					res.json(user);
+
 				} else {
 					res.negotiate(err);
 				}

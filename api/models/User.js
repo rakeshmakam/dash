@@ -114,27 +114,53 @@ module.exports = {
 		});
 	},
 
-	//logged in user can edit his details
-	edit: function (req, callback) {
+	// //logged in user can edit his details
+	// edit: function (req, callback) {
 		
-		if (req.password) {
-			saltAndHash(req.password, function (hash) {
-				req.password = hash;
+	// 	if (req.password) {
+	// 		saltAndHash(req.password, function (hash) {
+	// 			req.password = hash;
+	// 		});
+	// 	};
+	// 	User.update({id : userId}, req, function (err, data) {
+	// 		if (!err) {
+	// 			if (data.length == 0) {
+	// 				callback({status: 402, message: "User not found"});
+	// 			} else {
+	// 				delete data['password'];
+	// 				callback(null, data);
+	// 			}
+	// 		} else {
+	// 			callback(err);
+	// 		}
+	// 	});
+	// },
+
+	//logged in user can edit his details
+	edit: function (userId, data, callback) {
+		
+		if (data.password) {
+			saltAndHash(data.password, function (hash) {
+				data.password = hash;
 			});
 		};
-		User.update({id : userId}, req, function (err, data) {
+
+		sails.log.debug('data', data);
+		User.update({id : userId}, data, function (err, user) {
 			if (!err) {
-				if (data.length == 0) {
+				sails.log.debug('response', user);
+				if (user.length == 0) {
 					callback({status: 402, message: "User not found"});
 				} else {
 					delete data['password'];
-					callback(null, data);
+					callback(null, user[0]);
 				}
 			} else {
 				callback(err);
 			}
 		});
 	},
+
 
 	//Collect the basic info when user gets mail from Admin to access the Dash Site
 	basicInfo: function (req, callback) {
