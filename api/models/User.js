@@ -95,7 +95,7 @@ module.exports = {
 	},
 
 	profile: function (id, callback){
-		User.findOne({id : id}).exec(function (err, user){
+		User.findOne({id : id}).populateAll().exec(function (err, user){
 			if(!err) {
 				delete user['password'];
 				delete user['hashKey'];
