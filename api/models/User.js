@@ -94,6 +94,19 @@ module.exports = {
 		});
 	},
 
+	profile: function (id, callback){
+		User.findOne({id : id}).exec(function (err, user){
+			if(!err) {
+				delete user['password'];
+				delete user['hashKey'];
+				
+				callback(null , user);
+			} else {
+				callback(err);
+			}
+		});
+	},
+
 	//adding user by admin
 	add: function (data, callback) {
 

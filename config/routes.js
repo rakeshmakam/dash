@@ -40,6 +40,7 @@ module.exports.routes = {
   'GET /user/logout'                : 'UserController.logout',
   'DELETE /user/:id'                : 'UserController.delete',
   'GET /user'                       : 'UserController.list',
+  'GET /account'                    : 'UserController.profile',
   'GET /status'                     : 'UserController.status',
   'GET /user_info/:id'              : 'UserController.userInfo',
 

@@ -25,6 +25,19 @@ module.exports = {
 		});
 	},
 
+	profile: function(req, res){
+
+		var userId = req.session.user.id;
+		
+		User.profile(userId, function(err, user){
+			if(!err){
+				res.json(user);
+			} else { 
+				res.negotiate(err);
+			}
+		});
+	},
+
 	userInfo: function (req, res){
 
 		User.getUserInfo(req.param('id'), function (err, user){
