@@ -40,7 +40,7 @@ module.exports = {
 
 	userInfo: function (req, res){
 
-		User.getUserInfo(req.param('id'), function (err, user){
+		User.userInfo(req.param('id'), function (err, user){
 			if (!err) {
 				delete user.password;
 				delete user.hashKey;
