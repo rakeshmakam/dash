@@ -8,12 +8,13 @@
 module.exports = {
 
 	//Get list of activity
-	list: function (req, res) {
+	index: function (req, res) {
+		sails.log.debug('proj', req.param('projectId'));
 		var conditions = {};
-		if(req.params('projectId'))
-			conditions.project = req.params('projectId');
+		if(req.param('projectId'))
+			conditions.project = req.param('projectId');
 		
-		Activity.list(conditions, function (err, activities) {
+		Activity.index(conditions, function (err, activities) {
 			if (!err) {
 				res.json(activities);
 			} else {
@@ -24,8 +25,11 @@ module.exports = {
 
 	// Add activity
 	add: function (req, res) {
+		var user = req.session.user;
+		req.body.user = user.id;
 		Activity.add(req.body, function (err, activity) {
 			if (!err) {
+				sails.log.debug(activity);
 				res.json(activity);
 			} else {
 				res.negotiate(err);

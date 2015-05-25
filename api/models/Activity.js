@@ -33,10 +33,10 @@ module.exports = {
 		// }
 	},
 	
-	list: function (data, callback) {
-		Activity.find().sort('createdAt desc').populate('project').populate('user').exec(function (err, data) {
+	index: function (data, callback) {
+		Activity.find({where:data, sort: 'createdAt DESC'}).populateAll().exec(function (err, activities) {
 			if (!err) {
-				callback(null, data);
+				callback(null, activities);
 			} else {
 				callback(err);
 			}
@@ -47,25 +47,22 @@ module.exports = {
 		Activity.create(data).exec(function (err, activity) {
 			if(!err) {
 				var response = {};
-
 				response = activity;
-				Project.projectDetailsForActivity(activity.project, function(err, project){
+				Project.findOne(activity.project, function(err, project){
 					if(!err){
 						response.project = project;
+						User.findOne(activity.user, function(err, user){
+							if(!err){
+								response.user = user;
+								callback(null, response);
+							} else {
+								callback({status: 400, message: "User not found"});	
+							}
+						});
 					} else {
 						callback({status: 400, message: "Project not found"});
 					}
 				});
-
-				Project.userDetailsForActivity(activity.user, function(err, user){
-					if(!err){
-						response.user = user;
-						callback(null, response);
-					} else {
-						callback({status: 400, message: "User not found"});	
-					}
-				});
-
 			} else {
 				callback(err);
 			}

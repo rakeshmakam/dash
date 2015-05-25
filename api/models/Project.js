@@ -125,7 +125,6 @@ module.exports = {
     //when user post an activity project details are fetched and sent to Activity Service
 
     projectDetailsForActivity : function (projectId, callback){
-    	
     	Project.findOne({id : projectId}).exec( function (err, result){
     		if(!err){
     			return callback(null, result);
