@@ -46,7 +46,26 @@ module.exports = {
 	add: function (data, callback) {
 		Activity.create(data).exec(function (err, activity) {
 			if(!err) {
-				callback(null, activity);
+				var response = {};
+
+				response.activity = activity;
+				Project.projectDetailsForActivity(activity.project, function(err, project){
+					if(!err){
+						response.project = project;
+					} else {
+						callback({status: 400, message: "Project not found"});
+					}
+				});
+
+				Project.userDetailsForActivity(activity.user, function(err, user){
+					if(!err){
+						response.user = user;
+						callback(null, response);
+					} else {
+						callback({status: 400, message: "User not found"});	
+					}
+				});
+
 			} else {
 				callback(err);
 			}

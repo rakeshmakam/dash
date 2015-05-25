@@ -120,6 +120,30 @@ module.exports = {
 				return callback(err);
 			}
     	})
+    },
+
+    //when user post an activity project details are fetched and sent to Activity Service
+
+    projectDetailsForActivity : function (projectId, callback){
+    	
+    	Project.findOne({id : projectId}).exec( function (err, result){
+    		if(!err){
+    			return callback(null, result);
+    		} else {
+    			return callback(err);
+    		}
+    	});
+    },
+
+    //when user post an activity user details are fetched and sent to Activity Service
+    userDetailsForActivity : function (userId, callback){
+    	User.findOne({id : userId}).exec( function (err, result){
+    		if(!err){
+    			return callback(null, result);
+    		} else {
+    			return callback(err);
+    		}
+    	});
     }
 };
 
