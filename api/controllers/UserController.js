@@ -31,6 +31,7 @@ module.exports = {
 		
 		User.profile(userId, function(err, user){
 			if(!err){
+				user.avatar = base_url+user.avatar;
 				res.json(user);
 			} else { 
 				res.negotiate(err);
@@ -39,11 +40,12 @@ module.exports = {
 	},
 
 	userInfo: function (req, res){
-
 		User.userInfo(req.param('id'), function (err, user){
 			if (!err) {
 				delete user.password;
 				delete user.hashKey;
+				if(user.avatar)
+					user.avatar = base_url+user.avatar;
 				res.json(user);
 			} else {
 				res.negotiate(err);
@@ -148,6 +150,9 @@ module.exports = {
 			User.login(req.body, function (err, user) {
 				if (!err) {
 					req.session.authenticated = true;
+					if(user.avatar)
+						user.avatar = base_url+user.avatar;
+					
 					req.session.user = user;
 					res.json(user);
                 } else {
@@ -181,9 +186,10 @@ module.exports = {
 
     //Get the status of user. This API checks wheather User is logged in or not.
     status: function (req, res) { 
-        if (req.session.user)
-            res.json(req.session.user);
-        else
+        var user = req.session.user;
+        if (user){
+			res.json(user);
+        }else
             res.status(401).json({message: "user is not logged in"});
     }
 };
