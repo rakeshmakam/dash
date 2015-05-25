@@ -21,7 +21,7 @@ module.exports = {
 
 		user: {
 			required : true,
-			model: 'User'
+			model: 'User',
 		},
 
 		// likes: {

@@ -31,6 +31,9 @@ module.exports.routes = {
   * `assets` directory)                                                      *
   *                                                                          *
   ***************************************************************************/
+  '/': {
+    view: 'homepage'
+  },
   'POST /user'                      : 'UserController.add',
   'PUT /user'                       : 'UserController.edit',
   'POST /reset_password_initiate'   : 'UserController.resetPasswordInitiate',
