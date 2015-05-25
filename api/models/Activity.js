@@ -48,7 +48,7 @@ module.exports = {
 			if(!err) {
 				var response = {};
 
-				response.activity = activity;
+				response = activity;
 				Project.projectDetailsForActivity(activity.project, function(err, project){
 					if(!err){
 						response.project = project;
