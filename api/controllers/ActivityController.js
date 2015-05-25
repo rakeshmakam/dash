@@ -9,9 +9,13 @@ module.exports = {
 
 	//Get list of activity
 	list: function (req, res) {
-		Activity.list(req.body, function (err, activitys) {
+		var conditions = {};
+		if(req.params('projectId'))
+			conditions.project = req.params('projectId');
+		
+		Activity.list(conditions, function (err, activities) {
 			if (!err) {
-				res.json(activitys);
+				res.json(activities);
 			} else {
 				res.negotiate(err);
 			}

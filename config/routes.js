@@ -63,7 +63,7 @@ module.exports.routes = {
 
 
   'POST /activity'                  : 'ActivityController.add',
-  'GET /activity'                   : 'ActivityController.list',
+  'GET /activity/projectId?'        : 'ActivityController.list',
   'PUT /activity/:id'               : 'ActivityController.edit',
   'DELETE /activity/:id'            : 'ActivityController.delete',
 
