@@ -68,7 +68,16 @@ module.exports.routes = {
   'DELETE /activity/:id'            : 'ActivityController.delete',
 
   'POST /avatar'                    : 'ImageController.upload',
-  'DELETE /avatar/:name'            : 'ImageController.delete'
+  'DELETE /avatar/:name'            : 'ImageController.delete',
+
+  //for attachment of an activity
+
+  'POST /attachment'                    : 'AttachController.upload',
+  'DELETE /attachment/:name'            : 'AttachController.delete',
+
+  // '/test' : {
+  //   view:'testing'
+  // }
 
   // '/': {
   //   view: 'homepage'
