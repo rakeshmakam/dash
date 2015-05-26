@@ -8,8 +8,8 @@ var base_url = "https://s3-ap-southeast-1.amazonaws.com/mantra-dash/avatar/";
 
 module.exports = {
 	//Get list of user
-	list: function (req, res) {
-		User.list(req.body, function (err, users) {
+	index: function (req, res) {
+		User.index(req.body, function (err, users) {
 			if (!err) {
 				users = users.map(function(obj){ 
                     delete obj.password,

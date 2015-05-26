@@ -72,7 +72,7 @@ module.exports = {
 		}
 	},
 
-	list: function (data, callback) {
+	index: function (data, callback) {
 		User.find().populate("projects").exec(function (err, data) {
 			if (!err) {
 				callback(null, data);

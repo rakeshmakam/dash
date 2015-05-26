@@ -7,9 +7,9 @@
 
 module.exports = {
 	//Get list of project
-	list: function (req, res) {
+	index: function (req, res) {
 		var user = req.session.user;
-		Project.list(user, function (err, projects) {
+		Project.index(user, function (err, projects) {
 			if (!err) {
 				res.json(projects);
 			} else {

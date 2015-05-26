@@ -8,8 +8,8 @@
 module.exports = {
 
 	//Get list of workspace
-	list: function (req, res) {
-		Workspace.list(req.body, function (err, data) {
+	index: function (req, res) {
+		Workspace.index(req.body, function (err, data) {
 			if (!err) {
 				res.json(data);
 			} else {

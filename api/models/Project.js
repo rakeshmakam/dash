@@ -36,7 +36,7 @@ module.exports = {
 		}
 	},
 
-	list: function (user, callback) {
+	index: function (user, callback) {
 		if(user.role == 'admin'){
 			Project.find().exec(function (err, projects) {
 				if (!err) {

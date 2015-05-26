@@ -8,14 +8,13 @@
 module.exports = {
 
 	//Get list of activity
-	index: function (req, res) {
-		sails.log.debug('proj', req.param('projectId'));
+	index: function (req, res) {		
 		var conditions = {};
 		if(req.param('projectId'))
 			conditions.project = req.param('projectId');
-		
 		Activity.index(conditions, function (err, activities) {
 			if (!err) {
+			sails.log.debug('activities',activities);
 				res.json(activities);
 			} else {
 				res.negotiate(err);
