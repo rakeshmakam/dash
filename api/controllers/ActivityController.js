@@ -14,7 +14,6 @@ module.exports = {
 			conditions.project = req.param('projectId');
 		Activity.index(conditions, function (err, activities) {
 			if (!err) {
-				sails.log.debug('activities',activities);
 				res.json(activities);
 			} else {
 				res.negotiate(err);
