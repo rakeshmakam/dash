@@ -36,7 +36,6 @@ module.exports = {
 						sails.log.debug(err)
 						callback(err);
 					} else {
-						sails.log.debug(imageData)
 						callback(null, imageData);
 					}
 				});

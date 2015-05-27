@@ -4,7 +4,6 @@
  * @description :: Server-side logic for managing images
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-var base_url = "https://s3-us-west-2.amazonaws.com/sybar-dev/"; 
 
 module.exports = {
 	//Upload Images to AWS S3

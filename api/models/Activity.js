@@ -24,10 +24,15 @@ module.exports = {
 			model: 'User',
 		},
 
-		// likes: {
-		// 	model: 'likes'
-		// }
+		likes: {
+			type: 'int',
+			defaultsTo: null
+		},
 
+		attachment: {
+			model:'Attachment',
+			type: 'string'
+		}
 		// comments: {
 		// 	model: 'comments'
 		// }
