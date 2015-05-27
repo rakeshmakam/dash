@@ -32,7 +32,7 @@ exports.upload = function (doc, cb) {
                 Key: doc.subfolder +"/"+ doc.name,
                 Body: file_buffer,
                 ACL: 'public-read',
-                ContentType: 'image/png'
+                ContentType: doc.ext
             };
             uploader(params);
         });
@@ -42,7 +42,7 @@ exports.upload = function (doc, cb) {
                 Key: doc.subfolder +"/"+ doc.name,
                 Body: doc.data,
                 ACL: 'public-read',
-                ContentType: 'image/png'
+                ContentType: doc.ext
         };
         uploader(params);
     }
