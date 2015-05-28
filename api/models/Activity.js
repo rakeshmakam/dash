@@ -46,6 +46,7 @@ module.exports = {
 						var fn = (function(activityData){
 							return function(){
 								if(activityData.attachment){
+									activityData.attachment_name = activityData.attachment;
 									activityData.attachment = base_url + activityData.attachment;
 								}
 							}
