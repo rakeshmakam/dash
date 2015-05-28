@@ -41,19 +41,23 @@ module.exports = {
 	index: function (data, callback) {
 		Activity.find({where:data, sort: 'createdAt DESC'}).populateAll().exec(function (err, activities) {
 			if (!err) {
-				activities.forEach(function(activity, idx){
-					var fn = (function(activityData){
-						return function(){
-							if(activityData.attachment){
-								activityData.attachment = base_url + activityData.attachment;
+				if(activities.length > 0){
+					activities.forEach(function(activity, idx){
+						var fn = (function(activityData){
+							return function(){
+								if(activityData.attachment){
+									activityData.attachment = base_url + activityData.attachment;
+								}
 							}
+						})(activity);
+						fn();
+						if(idx == (activities.length-1)){
+							callback(null, activities);
 						}
-					})(activity);
-					fn();
-					if(idx == (activities.length-1)){
-						callback(null, activities);
-					}
-				});
+					});
+				} else {
+					callback(null, activities);
+				}
 			} else {
 				callback(err);
 			}
