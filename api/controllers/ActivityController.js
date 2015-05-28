@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing activities
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-
+var base_url = "https://s3-ap-southeast-1.amazonaws.com/mantra-dash/attachments/";
 module.exports = {
 
 	//Get list of activity
@@ -62,5 +62,16 @@ module.exports = {
 			res.status(400).json({message: "ID is missing"});
 		}
 	},
+	upload: function (req, res) {
+		req.body.userId = req.session.user.id;
+
+		Activity.upload(req.body, function(err, data){
+			if (!err) {
+				res.json(data);
+            } else {
+                res.negotiate(err);
+            }
+		});
+	}
 };
 

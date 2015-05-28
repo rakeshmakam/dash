@@ -4,7 +4,7 @@
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
-
+var base_url = "https://s3-ap-southeast-1.amazonaws.com/mantra-dash/attachments/";
 module.exports = {
 	tableName: "activity",
 
@@ -30,7 +30,7 @@ module.exports = {
 		},
 
 		attachment: {
-			model:'Attachment',
+			// model:'Attachment',
 			type: 'string'
 		}
 		// comments: {
@@ -41,7 +41,19 @@ module.exports = {
 	index: function (data, callback) {
 		Activity.find({where:data, sort: 'createdAt DESC'}).populateAll().exec(function (err, activities) {
 			if (!err) {
-				callback(null, activities);
+				activities.forEach(function(activity, idx){
+					var fn = (function(activityData){
+						return function(){
+							if(activityData.attachment){
+								activityData.attachment = base_url + activityData.attachment;
+							}
+						}
+					})(activity);
+					fn();
+					if(idx == (activities.length-1)){
+						callback(null, activities);
+					}
+				});
 			} else {
 				callback(err);
 			}
@@ -100,6 +112,29 @@ module.exports = {
 				return callback(err);
 			}
 		});
-    }
+    },
+    upload : function(data, callback){
+		var buffer = new Buffer(data.data, 'base64');
+		data.data = buffer;
+		data.subfolder = 'attachments';
+		data.name = Math.floor(Math.random() * 100000000000 + 1);
+		AWSService.upload(data, function(err, response){
+			if(!err){
+				delete data['subfolder'];
+				delete data['data'];
+				delete data['ext'];
+				Attachment.create(data, function(err, imageData){
+					if(err) {
+						sails.log.debug(err)
+						callback(err);
+					} else {
+						callback(null, imageData);
+					}
+				});
+			}else{
+				sails.log.error(err);
+			}
+		})
+  	}
 };
 

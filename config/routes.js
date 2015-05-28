@@ -72,8 +72,8 @@ module.exports.routes = {
 
   //for attachment of an activity
 
-  'POST /attachment'                    : 'AttachmentController.upload',
-  'DELETE /attachment/:name'            : 'AttachmentController.delete',
+  'POST /attachment'                    : 'ActivityController.upload',
+  // 'DELETE /attachment/:name'            : 'AttachmentController.delete',
 
   // '/test' : {
   //   view:'testing'
