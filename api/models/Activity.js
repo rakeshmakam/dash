@@ -10,33 +10,40 @@ module.exports = {
 
 	attributes: {
 		description: {
-			type: "string",
-			required : true
+			type: "string"
+			// required : true
 		},
 
 		project: {
-			required : true,
+			// required : true,
 			model: 'Project'
 		},
 
 		user: {
-			required : true,
+			// required : true,
 			model: 'User',
 		},
 
 		likes: {
 			type: 'json'
 		},
+		comments: {
+			type: 'json'
+		},
 
 		attachment: {
 			// model:'Attachment',
 			type: 'string'
-		}
-		// comments: {
-		// }
+		},
+		parentId: {
+			type: 'string',
+			defaultsTo:null
+		},
 	},
 	
 	index: function (data, callback) {
+		data.parentId = null;
+		// sails.log.debug(data);
 		Activity.find({where:data, sort: 'createdAt DESC'}).populateAll().exec(function (err, activities) {
 			if (!err) {
 				if(activities.length > 0){
@@ -47,11 +54,26 @@ module.exports = {
 									activityData.attachment_name = activityData.attachment;
 									activityData.attachment = base_url + activityData.attachment;
 								}
+								Activity.findComments({parentId: activityData.id}, function(error, comments){
+									if(!error){
+										activityData.comments = comments;
+									}
+								});
 							}
 						})(activity);
 						fn();
 						if(idx == (activities.length-1)){
-							callback(null, activities);
+							function respond(){
+								if(activities){
+									if(activities[activities.length-1].comments){
+										callback(null, activities);
+									} else {
+										setTimeout(respond, 1000);
+									}
+								}
+							}
+							respond();
+							// callback(null, activities);
 						}
 					});
 				} else {
@@ -64,7 +86,6 @@ module.exports = {
 	},
 
 	add: function (data, callback) {
-		data.likes = [];
 		Activity.create(data).exec(function (err, activity) {
 			if(!err) {
 				var response = {};
@@ -85,6 +106,30 @@ module.exports = {
 					}
 				});
 			} else {
+				callback(err);
+			}
+		});
+	},
+
+	addComment: function(data, callback){
+		Activity.create(data).exec(function (err, activity) {
+			if(!err) {
+				callback(null, activity);
+			} else {
+				callback(err);
+			}
+		});
+	},
+
+	findComments: function(data, callback){
+		Activity.find({where: data, sort: 'createdAt DESC'}, function(err, comments){
+			if(!err){
+				if(comments.length == 0){
+					callback(null, []);
+				} else {
+					callback(null, comments);
+				}
+			}else{
 				callback(err);
 			}
 		});

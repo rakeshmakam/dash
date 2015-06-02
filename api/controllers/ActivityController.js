@@ -27,7 +27,6 @@ module.exports = {
 		req.body.user = user.id;
 		Activity.add(req.body, function (err, activity) {
 			if (!err) {
-				sails.log.debug(activity);
 				res.json(activity);
 			} else {
 				res.negotiate(err);
@@ -87,5 +86,33 @@ module.exports = {
 			});	
 		}
 	},
+	comment: function (req, res) {
+		var data = {};
+		data.comment = req.body.comment;
+		data.userId = req.session.user.id;
+		data.parentId = req.body.activity;
+		if(data.comment){
+			Activity.addComment(data, function(err, data){
+				if (!err) {
+					res.json(data);
+	            } else {
+	                res.negotiate(err);
+	            }
+			});	
+		}
+	},
+	findComments: function(req, res){
+		var data = {};
+		data.parentId = req.param('activityId');
+		if(data.parentId){
+			Activity.findComments(data, function(err, result){
+				if(!err){
+					res.json(result);
+				} else {
+					res.negotiate(err);
+				}
+			});
+		}
+	}
 };
 
