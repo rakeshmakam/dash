@@ -153,9 +153,9 @@ module.exports = {
 						}
 						if(idx == (doc.likes.length - 1)){
 							doc.likes = existedLikes;
-							Activity.updateLikes(doc, function(error, likes){
+							Activity.updateLikes(doc, function(error, updatedActivity){
 								if(!error){
-									callback(null, likes);
+									callback(null, updatedActivity);
 								}else{
 									callback(error);
 								}
@@ -164,9 +164,9 @@ module.exports = {
 					});
 				} else {
 					doc.likes.push(data.userId);
-					Activity.updateLikes(doc, function(error, likes){
+					Activity.updateLikes(doc, function(error, updatedActivity){
 						if(!error){
-							callback(null, likes);
+							callback(null, updatedActivity);
 						}else{
 							callback(error);
 						}
@@ -181,7 +181,7 @@ module.exports = {
   	updateLikes : function(doc, callback){
   		Activity.update({id: doc.id}, doc, function(err, updatedActivity){
   			if(!err){
-  				callback(null, updatedActivity[0].likes);
+  				callback(null, updatedActivity[0]);
   			} else {
   				callback(err);
   			}
