@@ -72,6 +72,20 @@ module.exports = {
                 res.negotiate(err);
             }
 		});
-	}
+	},
+	like: function (req, res) {
+		var data = {};
+		data.activityId = req.body.activity;
+		data.userId = req.session.user.id;
+		if(data.activityId){
+			Activity.like(data, function(err, data){
+				if (!err) {
+					res.json(data);
+	            } else {
+	                res.negotiate(err);
+	            }
+			});	
+		}
+	},
 };
 

@@ -25,8 +25,7 @@ module.exports = {
 		},
 
 		likes: {
-			type: 'int',
-			defaultsTo: null
+			type: 'json'
 		},
 
 		attachment: {
@@ -34,7 +33,6 @@ module.exports = {
 			type: 'string'
 		}
 		// comments: {
-		// 	model: 'comments'
 		// }
 	},
 	
@@ -66,6 +64,7 @@ module.exports = {
 	},
 
 	add: function (data, callback) {
+		data.likes = [];
 		Activity.create(data).exec(function (err, activity) {
 			if(!err) {
 				var response = {};
@@ -140,6 +139,53 @@ module.exports = {
 				sails.log.error(err);
 			}
 		})
+  	},
+  	like : function(data, callback){
+  		Activity.findOne({id : data.activityId}).exec(function (err, activity) {
+			if (!err) {
+  				var doc = JSON.parse(JSON.stringify(activity));
+  				var existedLikes = [];
+ 
+				if(_.contains(doc.likes, data.userId)){
+					_.each(doc.likes, function(uid, idx){
+						if(uid != data.userId){
+							existedLikes.push(uid);
+						}
+						if(idx == (doc.likes.length - 1)){
+							doc.likes = existedLikes;
+							Activity.updateLikes(doc, function(error, likes){
+								if(!error){
+									callback(null, likes);
+								}else{
+									callback(error);
+								}
+							});
+						}
+					});
+				} else {
+					doc.likes.push(data.userId);
+					Activity.updateLikes(doc, function(error, likes){
+						if(!error){
+							callback(null, likes);
+						}else{
+							callback(error);
+						}
+					});
+				}
+			}else {
+				callback(err);
+			}
+		});
+  	},
+
+  	updateLikes : function(doc, callback){
+  		Activity.update({id: doc.id}, doc, function(err, updatedActivity){
+  			if(!err){
+  				callback(null, updatedActivity[0].likes);
+  			} else {
+  				callback(err);
+  			}
+  		});
   	}
 };
 
