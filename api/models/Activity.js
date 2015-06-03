@@ -112,13 +112,28 @@ module.exports = {
 	},
 
 	addComment: function(data, callback){
-		Activity.create(data).exec(function (err, activity) {
-			if(!err) {
-				callback(null, activity);
-			} else {
-				callback(err);
-			}
-		});
+		if(data.userId){
+			User.findOne({id: data.userId}, function(err, user){
+				if(!err){
+					delete data.userId;
+					var userInfo = {};
+					userInfo.email = user.email;
+					userInfo.name = user.name;
+					userInfo.id = user.id;
+					userInfo.avatar = user.avatar;
+					data.userInfo = userInfo;
+					Activity.create(data).exec(function (err, activity) {
+						if(!err) {
+							callback(null, activity);
+						} else {
+							callback(err);
+						}
+					});
+				} else {
+					callback({status: 400, message: "User not found"});	
+				}
+			});
+		}
 	},
 
 	findComments: function(data, callback){
