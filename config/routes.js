@@ -66,8 +66,9 @@ module.exports.routes = {
   'GET /activity/:projectId?'       : 'ActivityController.index',
   'PUT /activity/:id'               : 'ActivityController.edit',
   'POST /activity/like'             : 'ActivityController.like',
-  'POST /activity/comment'          : 'ActivityController.comment', 
-  'get /activity/comments/:activityId'          : 'ActivityController.findComments', 
+  'POST /activity/comment'          : 'ActivityController.comment',
+  'POST /activity/comment/like'     : 'ActivityController.likeComment',
+  // 'get /activity/comments/:activityId'      : 'ActivityController.findComments', 
   'DELETE /activity/:id'            : 'ActivityController.delete',
 
   'POST /avatar'                    : 'ImageController.upload',

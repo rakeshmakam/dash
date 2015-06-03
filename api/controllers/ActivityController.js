@@ -101,6 +101,20 @@ module.exports = {
 			});	
 		}
 	},
+	likeComment: function(req, res){
+		var data = {};
+		data.activityId = req.body.commentId;
+		data.userId = req.session.user.id;
+		if(data.activityId){
+			Activity.like(data, function(err, data){
+				if (!err) {
+					res.json(data);
+	            } else {
+	                res.negotiate(err);
+	            }
+			});	
+		}
+	},
 	findComments: function(req, res){
 		var data = {};
 		data.parentId = req.param('activityId');
