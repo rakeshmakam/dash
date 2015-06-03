@@ -214,6 +214,7 @@ module.exports = {
 					validatePassword(opts.password, user.password, function (res) {
 						if(res) {
 							delete user['password'];
+							delete user['hashKey'];
 							callback(null,user);
 						} else {
 							callback({status: 402, message: "Email or password does not match"});

@@ -42,8 +42,71 @@ module.exports = {
 	},
 	
 	index: function (data, callback) {
-		data.parentId = null;
-		// sails.log.debug(data);
+		var result = [];
+		var counter = 0;
+		if(data.userData.role == 'user'){
+			if(data.project){
+				var conditions = {};
+				conditions.parentId = null;
+				conditions.project = data.project;
+				Activity.findActivities(conditions, function(err, response){
+					if(!err){
+						callback(null, response);
+					} else {
+						callback(err);
+					}
+				});
+			} else {
+				_.each(data.userData.projects, function(project, idx){
+					var fn = (function(projectData){
+						return function(){
+							var conditions = {};
+							conditions.parentId = null;
+							conditions.project = projectData.id;
+							Activity.findActivities(conditions, function(err, response){
+								if(!err){
+									if(response && response.length > 0){
+										_.each(response, function(info){
+											result.push(info);
+										});
+									}
+									counter = counter + 1;
+								} else {
+									callback(err);
+								}
+							});
+						}
+					})(project);
+					fn();
+					if(idx == (data.userData.projects).length-1){
+						function respond(){
+							if(counter == data.userData.projects.length){
+								callback(null, result);
+							} else {
+								setTimeout(respond, 100);
+							}
+						}
+						respond();
+					}
+				});
+			}
+		} else {
+			var conditions = {};
+			conditions.parentId = null;
+			if(data.project){
+				conditions.project = data.project;
+			}
+			Activity.findActivities(conditions, function(err, response){
+				if(!err){
+					callback(null, response);
+				} else {
+					callback(err);
+				}
+			});
+		}
+	},
+
+	findActivities: function(data, callback){
 		Activity.find({where:data, sort: 'createdAt DESC'}).populateAll().exec(function (err, activities) {
 			if (!err) {
 				if(activities.length > 0){
@@ -71,12 +134,11 @@ module.exports = {
 									if(activities[activities.length-1].comments){
 										callback(null, activities);
 									} else {
-										setTimeout(respond, 1000);
+										setTimeout(respond, 100);
 									}
 								}
 							}
 							respond();
-							// callback(null, activities);
 						}
 					});
 				} else {

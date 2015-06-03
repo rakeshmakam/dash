@@ -10,8 +10,10 @@ module.exports = {
 	//Get list of activity
 	index: function (req, res) {		
 		var conditions = {};
-		if(req.param('projectId'))
-			conditions.project = req.param('projectId');
+		if(req.param('projectId')){
+			conditions.project =  req.param('projectId');
+		}
+		conditions.userData = req.session.user;
 		Activity.index(conditions, function (err, activities) {
 			if (!err) {
 				res.json(activities);
