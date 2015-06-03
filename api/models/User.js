@@ -117,13 +117,17 @@ module.exports = {
 		}
 
 		data.hashKey = generateSalt();
-		User.create(data, function (err, user) {
-			if(!err) {
-				delete user['password'];
-				callback(null, user);
-			} else {
-				callback(err);
-			}
+
+		saltAndHash(data.password, function(encryptedPswrd){
+   		data.password = encryptedPswrd;
+			User.create(data, function (err, user) {
+				if(!err) {
+					delete user['password'];
+					callback(null, user);
+				} else {
+					callback(err);
+				}
+			});
 		});
 	},
 
