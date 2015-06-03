@@ -54,6 +54,9 @@ module.exports = {
 									activityData.attachment_name = activityData.attachment;
 									activityData.attachment = base_url + activityData.attachment;
 								}
+								delete activityData.user.hashKey;
+								delete activityData.user.email_verified;
+								delete activityData.user.password;
 								Activity.findComments({parentId: activityData.id}, function(error, comments){
 									if(!error){
 										activityData.comments = comments;
@@ -95,7 +98,11 @@ module.exports = {
 						response.project = project;
 						User.findOne(activity.user, function(err, user){
 							if(!err){
-								response.user = user;
+								var info = JSON.parse(JSON.stringify(user));
+								delete info.hashKey;
+								delete info.email_verified;
+								delete info.password;
+								response.user = info;
 								callback(null, response);
 							} else {
 								callback({status: 400, message: "User not found"});	
@@ -112,6 +119,7 @@ module.exports = {
 	},
 
 	addComment: function(data, callback){
+		data.likes = [];
 		if(data.userId){
 			User.findOne({id: data.userId}, function(err, user){
 				if(!err){
