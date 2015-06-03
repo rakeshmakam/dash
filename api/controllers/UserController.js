@@ -83,7 +83,7 @@ module.exports = {
 						if(!err) {
 							sails.log.debug('controller',user);
 						} else{
-							sails.log.debug(error);
+							sails.log.debug(err);
 						}
 					});
 				}
