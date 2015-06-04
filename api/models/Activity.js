@@ -44,7 +44,7 @@ module.exports = {
 	index: function (data, callback) {
 		var result = [];
 		var counter = 0;
-		if(data.userData.role == 'user'){
+		// if(data.userData.role == 'user'){
 			if(data.project){
 				var conditions = {};
 				conditions.parentId = null;
@@ -90,20 +90,20 @@ module.exports = {
 					}
 				});
 			}
-		} else {
-			var conditions = {};
-			conditions.parentId = null;
-			if(data.project){
-				conditions.project = data.project;
-			}
-			Activity.findActivities(conditions, function(err, response){
-				if(!err){
-					callback(null, response);
-				} else {
-					callback(err);
-				}
-			});
-		}
+		// } else {
+		// 	var conditions = {};
+		// 	conditions.parentId = null;
+		// 	if(data.project){
+		// 		conditions.project = data.project;
+		// 	}
+		// 	Activity.findActivities(conditions, function(err, response){
+		// 		if(!err){
+		// 			callback(null, response);
+		// 		} else {
+		// 			callback(err);
+		// 		}
+		// 	});
+		// }
 	},
 
 	findActivities: function(data, callback){
