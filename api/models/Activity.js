@@ -42,105 +42,86 @@ module.exports = {
 	},
 	
 	index: function (data, callback) {
-		var result = [];
 		var counter = 0;
-		// if(data.userData.role == 'user'){
-			if(data.project){
-				var conditions = {};
-				conditions.parentId = null;
-				conditions.project = data.project;
-				Activity.findActivities(conditions, function(err, response){
-					if(!err){
-						callback(null, response);
-					} else {
-						callback(err);
-					}
-				});
-			} else {
-				_.each(data.userData.projects, function(project, idx){
-					var fn = (function(projectData){
-						return function(){
-							var conditions = {};
-							conditions.parentId = null;
-							conditions.project = projectData.id;
-							Activity.findActivities(conditions, function(err, response){
-								if(!err){
-									if(response && response.length > 0){
-										_.each(response, function(info){
-											result.push(info);
-										});
-									}
-									counter = counter + 1;
-								} else {
-									callback(err);
-								}
-							});
+		var i = 0;
+		var length;
+		var result = [];
+		if(data.project){
+			var conditions = {};
+			conditions.parentId = null;
+			conditions.project = data.project;
+			Activity.findActivities(conditions, function(err, response){
+				if(!err){
+					callback(null, response);
+				} else {
+					callback(err);
+				}
+			});
+		} else {
+			length = data.userData.projects.length;
+			if(length > 0){
+				var fn1 = function(){
+					var project = data.userData.projects[i++];
+					var fn2 = function(){
+						if(counter < length){
+							fn1();
+						} else {
+							callback(null, result);
 						}
-					})(project);
-					fn();
-					if(idx == (data.userData.projects).length-1){
-						function respond(){
-							if(counter == data.userData.projects.length){
-								callback(null, result);
-							} else {
-								setTimeout(respond, 100);
+					};
+					var conditions = {};
+					conditions.parentId = null;
+					conditions.project = project.id;
+					Activity.findActivities(conditions, function(error, response){
+						if(!error){
+							if(response && response.length > 0){
+								_.each(response, function(info){
+									result.push(info);
+								});
 							}
+							counter++;
+							fn2();
 						}
-						respond();
-					}
-				});
+					});
+				};
+				fn1();
+			} else {
+				callback(null, []);
 			}
-		// } else {
-		// 	var conditions = {};
-		// 	conditions.parentId = null;
-		// 	if(data.project){
-		// 		conditions.project = data.project;
-		// 	}
-		// 	Activity.findActivities(conditions, function(err, response){
-		// 		if(!err){
-		// 			callback(null, response);
-		// 		} else {
-		// 			callback(err);
-		// 		}
-		// 	});
-		// }
+		}
 	},
 
 	findActivities: function(data, callback){
+		var counter = 0;
+		var i = 0;
+		var length;
+		var result = [];
 		Activity.find({where:data, sort: 'createdAt DESC'}).populateAll().exec(function (err, activities) {
 			if (!err) {
-				if(activities.length > 0){
-					activities.forEach(function(activity, idx){
-						var fn = (function(activityData){
-							return function(){
-								if(activityData.attachment){
-									activityData.attachment_name = activityData.attachment;
-									activityData.attachment = base_url + activityData.attachment;
-								}
-								delete activityData.user.hashKey;
-								delete activityData.user.email_verified;
-								delete activityData.user.password;
-								Activity.findComments({parentId: activityData.id}, function(error, comments){
-									if(!error){
-										activityData.comments = comments;
-									}
-								});
+				length = activities.length;
+				if(length > 0){
+					var fn1 = function(){
+						var activity = activities[i++];
+						var fn2 = function(){
+							if(counter < length){
+								fn1();
+							} else {
+								callback(null, result);
 							}
-						})(activity);
-						fn();
-						if(idx == (activities.length-1)){
-							function respond(){
-								if(activities){
-									if(activities[activities.length-1].comments){
-										callback(null, activities);
-									} else {
-										setTimeout(respond, 100);
-									}
-								}
+						};
+						delete activity.user.hashKey;
+						delete activity.user.email_verified;
+						delete activity.user.password;
+						Activity.findComments({parentId: activity.id}, function(error, comments){
+							if(!error){
+								activity.comments = comments;
+								result.push(activity);
+								counter++;
+								fn2();
 							}
-							respond();
-						}
-					});
+						});
+					};
+					fn1();
 				} else {
 					callback(null, activities);
 				}
