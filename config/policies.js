@@ -65,6 +65,11 @@ module.exports.policies = {
     add : ['isAdmin'],
     edit: ['isAdmin'],
     delete : ['isAdmin']
+  },
+
+  ActivityController:{
+    edit : ['isOwner'],
+    delete : ['isOwner']
   }
 };
 

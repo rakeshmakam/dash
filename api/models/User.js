@@ -261,7 +261,6 @@ module.exports = {
     },
 
     suggest: function(term, cb){
-    	console.log(term);
     	User.find({name: {contains: term}}).exec(function(err, users){
     		if(!err){
     			if(users && users.length > 0){
