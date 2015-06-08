@@ -4,6 +4,7 @@
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
+var base_url = "https://s3-ap-southeast-1.amazonaws.com/mantra-dash/avatar/"; 
 var crypto = require('crypto');
 
 module.exports = {
@@ -255,6 +256,40 @@ module.exports = {
 				}
     		} else {
     			callback(err);
+    		}
+    	});
+    },
+
+    suggest: function(term, cb){
+    	console.log(term);
+    	User.find({name: {contains: term}}).exec(function(err, users){
+    		if(!err){
+    			if(users && users.length > 0){
+    				var lists = [];
+	    			_.each(users, function(user, idx){
+	    				var data = {};
+	    				var userData = JSON.parse(JSON.stringify(user));
+	    				for(key in user){
+	    					if(key == 'name' || key == 'id' || key == 'avatar'){
+	    						if(key == 'avatar'){
+	    							data['image_url'] = base_url + userData[key];
+	    						} else {
+	    							data[key] = userData[key];
+	    						}
+	    					} else {
+	    						delete userData[key];
+	    					}
+	    				}
+	    				lists.push(data);
+	    				if(idx == (users.length-1)){
+	    					cb(null, lists)
+	    				}
+	    			});
+    			} else {
+					cb(null, []);    				
+    			}
+    		} else {
+    			cb(err);
     		}
     	});
     }

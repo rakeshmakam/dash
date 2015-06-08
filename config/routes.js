@@ -77,6 +77,7 @@ module.exports.routes = {
   //for attachment of an activity
 
   'POST /attachment'                    : 'ActivityController.upload',
+  'GET /user/suggest/:term'         : 'UserController.suggest'
   // 'DELETE /attachment/:name'            : 'AttachmentController.delete',
 
   // '/test' : {

@@ -191,6 +191,21 @@ module.exports = {
 			res.json(user);
         }else
             res.status(401).json({message: "user is not logged in"});
+    },
+
+    suggest: function(req, res){
+    	var term = req.param('term');
+    	if(!term){
+    		res.badRequest();
+    	} else {
+    		User.suggest(term, function(err, list){
+    			if(!err){
+    				res.json(list);
+    			}else{
+    				res.serverError();
+    			}
+    		});
+    	}
     }
 };
 

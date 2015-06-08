@@ -27,7 +27,9 @@ module.exports = {
 	add: function (req, res) {
 		var user = req.session.user;
 		req.body.user = user.id;
-		Activity.add(req.body, function (err, activity) {
+		if (!req.body || !req.body.description || !req.body.project) {
+			res.badRequest('description is missing');
+		}else Activity.add(req.body, function (err, activity) {
 			if (!err) {
 				res.json(activity);
 			} else {

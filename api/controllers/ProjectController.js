@@ -23,6 +23,8 @@ module.exports = {
 		Project.add(req.body, function (err, project) {
 			if (!err) {
 				res.json(project);
+				var userData = req.session.user;
+				userData.projects.push(project);
 			} else {
 				res.negotiate(err);
 			}
