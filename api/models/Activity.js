@@ -221,7 +221,19 @@ module.exports = {
 				if (data.length == 0) {
 					return callback({status: 400, message: "activity not found"});
 				} else {
-					return callback(null, data.id);
+					Activity.find({parentId : activityId}).exec( function (error, comments) {
+						if(!error){
+							if(comments.length > 0){
+								Activity.destroy({parentId : activityId}).exec( function (errors, response) {
+									if(!errors){
+										return callback(null,{status: 200, message: "deleted successfully"});
+									}
+								});
+							} else {
+								return callback(null,{status: 200, message: "deleted successfully"} );
+							}
+						}
+					});
 				}
 			} else {
 				return callback(err);

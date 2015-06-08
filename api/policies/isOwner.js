@@ -12,7 +12,11 @@ module.exports = function(req, res, next) {
   var userId = req.session.user.id;
   Activity.findOne({id : activityId}).exec(function(err,activity){
   	if (!err){
-  		var ownerId = activity.user;
+      if (activity.user){
+         var ownerId = activity.user;
+      } else {
+  		  var ownerId = activity.userInfo.id;
+      }
   		if (userId == ownerId){
   			return next();
   		} else {
