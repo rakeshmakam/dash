@@ -91,6 +91,16 @@ module.exports = {
 				if (data.length == 0) {
 					return callback({status: 402, message: "Project not found"});
 				} else {
+					Activity.destroy({project : projectId}).exec(function (error, response){
+						if(!error){
+							console.log('Activities associated with the '+projectId+' are deleted');
+						}
+					});
+					Task.destroy({project : projectId}).exec(function (errors, response){
+						if(!errors){
+							console.log('Tasks associated with the '+projectId+' are deleted');
+						}
+					});
 					return callback(null, data.id);
 				}
 			} else {

@@ -21,7 +21,8 @@ module.exports = {
 		},
 
 		project: {
-			model: 'Project'
+			model: 'Project',
+			require: true
 		},
 
 		// assignedBy:{
@@ -29,7 +30,8 @@ module.exports = {
 		// }
 
 		assignedTo: {
-			model: 'User'
+			model: 'User',
+			required: true
 		},
 
 		duedate: {
@@ -44,7 +46,7 @@ module.exports = {
 
 	index: function (user, callback) {
 		if(user.role == 'admin'){
-			Task.find().exec(function (err, tasks) {
+			Task.find({sort: 'createdAt DESC'}).populateAll().exec(function (err, tasks) {
 				if (!err) {
 					callback(null, tasks);
 				} else {
@@ -52,7 +54,7 @@ module.exports = {
 				}
 			});
 		} else {
-			Task.findOne({assignedTo: user.id}).exec(function (err, tasks) {
+			Task.findOne({assignedTo: user.id},{sort: 'createdAt DESC'}).exec(function (err, tasks) {
 				if (!err) {
 					callback(null, tasks);
 				} else {
@@ -65,7 +67,32 @@ module.exports = {
 	add: function (data, callback) {
 		Task.create(data, function (err, task) {
 			if(!err) {
-				callback(null, task);
+				var response = {};
+				response = task;
+				Project.findOne(task.project, function (err, project){
+					if(!err){
+						var projectinfo = JSON.parse(JSON.stringify(project));
+						delete projectinfo.activity;
+						delete projectinfo.users;
+						delete projectinfo.tasks;
+						response.project = projectinfo;
+						User.findOne(task.assignedTo, function(err, user){
+							if(!err){
+								var info = JSON.parse(JSON.stringify(user));
+								delete info.hashKey;
+								delete info.email_verified;
+								delete info.password;
+								response.assignedTo = info;
+								callback(null, response);
+							} else {
+								callback({status: 400, message: "User not found"});	
+							}
+						});
+
+					} else {
+						callback({status: 400, message: "Project not found"});
+					}
+				});
 			} else {
 				callback(err);
 			}
