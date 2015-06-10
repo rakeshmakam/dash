@@ -46,23 +46,13 @@ module.exports = {
 	},
 
 	index: function (user, callback) {
-		if(user.role == 'admin'){
-			Task.find({sort: 'createdAt DESC'}).populateAll().exec(function (err, tasks) {
-				if (!err) {
-					callback(null, tasks);
-				} else {
-					callback(err);
-				}
-			});
-		} else {
-			Task.find({assignedTo: user.id},{sort: 'createdAt DESC'}).populateAll().exec(function (err, tasks) {
-				if (!err) {
-					callback(null, tasks);
-				} else {
-					callback(err);
-				}
-			});
-		}
+		Task.find({assignedTo: user.id},{sort: 'createdAt DESC'}).populateAll().exec(function (err, tasks) {
+			if (!err) {
+				callback(null, tasks);
+			} else {
+				callback(err);
+			}
+		});
 	},
 
 	add: function (data, callback) {
@@ -138,6 +128,16 @@ module.exports = {
 			}
 		});
     },
+
+    assignedTask: function(user, callback) {
+    	Task.find ({assignedBy:user.id},{sort: 'createdAt DESC'}).populateAll().exec(function (err, tasks){
+    		if(!err){
+    			callback(null,tasks);
+    		} else {
+    			callback(err);
+    		}
+    	});
+    }
     
 };
 

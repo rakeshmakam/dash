@@ -67,6 +67,17 @@ module.exports = {
           res.negotiate(err);
         }
       })
+  },
+
+  assignedTask: function (req, res){
+   var user = req.session.user;
+   Task.assignedTask(user,function (err, tasks){
+      if(!err){
+         res.json(tasks);
+      } else {
+         res.negotiate(err);
+      }
+   })
   }
 
 };
