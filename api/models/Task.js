@@ -22,7 +22,7 @@ module.exports = {
 
 		project: {
 			model: 'Project',
-			require: true
+			required: true
 		},
 
 		// assignedBy:{
@@ -54,7 +54,7 @@ module.exports = {
 				}
 			});
 		} else {
-			Task.findOne({assignedTo: user.id},{sort: 'createdAt DESC'}).exec(function (err, tasks) {
+			Task.find({assignedTo: user.id},{sort: 'createdAt DESC'}).populateAll().exec(function (err, tasks) {
 				if (!err) {
 					callback(null, tasks);
 				} else {
