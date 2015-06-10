@@ -33,6 +33,11 @@ module.exports = {
 		users: {
 			collection: 'User',
 			via: 'projects'
+		},
+
+		tasks: {
+			collection: 'Task',
+			via : 'project'
 		}
 	},
 

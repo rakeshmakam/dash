@@ -70,6 +70,11 @@ module.exports = {
 
 		websiteUrl : {
 			type : "string"
+		},
+
+		tasks: {
+			collection: "Task",
+			via: 'assignedTo'
 		}
 	},
 

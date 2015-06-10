@@ -76,9 +76,14 @@ module.exports.routes = {
 
   //for attachment of an activity
 
-  'POST /attachment'                    : 'ActivityController.upload',
-  'GET /user/suggest/:term'         : 'UserController.suggest'
+  'POST /attachment'                : 'ActivityController.upload',
+  'GET /user/suggest/:term'         : 'UserController.suggest',
   // 'DELETE /attachment/:name'            : 'AttachmentController.delete',
+
+  'GET /task/get'                   : 'TasksController.index',
+  'POST /task/add'                  : 'TasksController.add',
+  'PUT /task/edit/:id'              : 'TasksController.edit',
+  'DELETE /task/:id'                : 'TasksController.delete'
 
   // '/test' : {
   //   view:'testing'
