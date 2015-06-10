@@ -25,9 +25,10 @@ module.exports = {
 			required: true
 		},
 
-		// assignedBy:{
-		// 	model: 'User'
-		// }
+		assignedBy:{
+			model: 'User'
+			// required: true
+		},
 
 		assignedTo: {
 			model: 'User',
@@ -76,14 +77,25 @@ module.exports = {
 						delete projectinfo.users;
 						delete projectinfo.tasks;
 						response.project = projectinfo;
-						User.findOne(task.assignedTo, function(err, user){
+						User.findOne(task.assignedTo, function(err, userTo){
 							if(!err){
-								var info = JSON.parse(JSON.stringify(user));
+								var info = JSON.parse(JSON.stringify(userTo));
 								delete info.hashKey;
 								delete info.email_verified;
 								delete info.password;
 								response.assignedTo = info;
-								callback(null, response);
+								User.findOne(task.assignedBy, function(err, userBy){
+									if(!err){
+										var info = JSON.parse(JSON.stringify(userBy));
+										delete info.hashKey;
+										delete info.email_verified;
+										delete info.password;
+										response.assignedBy = info;
+										callback(null, response);
+									} else {
+										callback({status: 400, message: "User not found"});	
+									}
+								});
 							} else {
 								callback({status: 400, message: "User not found"});	
 							}

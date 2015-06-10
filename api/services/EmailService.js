@@ -47,4 +47,22 @@ exports.resetPassword = function(data, cb) {
 			cb(null, res);
 		}
 	});
-}
+};
+
+exports.taskAlert = function(data, cb) {
+	var mail = {
+		from: 'Dash <noreply@dash.com>',
+		to: data.assignedTo.email,
+		subject: 'New Task is assigned to you',
+		template: 'taskDescription',
+		context: data
+	}
+
+	transporter.sendMail(mail, function(err, res){
+		if (err) { 
+			cb(err);
+		}else{
+			cb(null, res);
+		}
+	});
+};
