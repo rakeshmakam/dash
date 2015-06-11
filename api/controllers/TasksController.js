@@ -25,20 +25,26 @@ module.exports = {
   add: function (req, res) {
    var user = req.session.user;
    req.body.assignedBy = user.id;
-    Task.add(req.body, function (err, task) {
-      if (!err) {
-        res.json(task);
-        EmailService.taskAlert(task, function(error, data){
-            if (!error) {
-               sails.log.debug(data);
-            } else {
-               sails.log.error(error);
-            }
-         });
-      } else {
-        res.negotiate(err);
-      }
-    });
+
+   if(user.id != req.body.assignedTo){
+      Task.add(req.body, function (err, task) {
+         if (!err) {
+            res.json(task);
+            EmailService.taskAlert(task, function(error, data){
+               if (!error) {
+                  sails.log.debug(data);
+               } else {
+                  sails.log.error(error);
+               }
+            });
+         } else {
+            res.negotiate(err);
+         }
+      });
+   } else {
+      res.badRequest('assinedTo and assigned by should not be same');
+   }
+
   },
 
   /**

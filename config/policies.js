@@ -68,8 +68,13 @@ module.exports.policies = {
   },
 
   ActivityController:{
-    edit : ['isOwner'],
-    delete : ['isOwner']
+    edit : ['isOwnerOfActivity'],
+    delete : ['isOwnerOfActivity']
+  },
+
+  TasksController: {
+    delete : ['isOwnerOfTask']
   }
+
 };
 
