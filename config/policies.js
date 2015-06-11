@@ -73,6 +73,7 @@ module.exports.policies = {
   },
 
   TasksController: {
+    // edit : ['isOwnerOfTask'],
     delete : ['isOwnerOfTask']
   }
 

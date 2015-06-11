@@ -40,7 +40,8 @@ module.exports = {
 		},
 
 		status : {
-			type : 'string'
+			type: 'string',
+			enum: ['Not started', 'In progress', 'Completed']
 		}
 
 	},
