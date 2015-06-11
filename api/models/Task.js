@@ -39,7 +39,7 @@ module.exports = {
 			type: 'date'
 		},
 
-		presentStatus : {
+		status : {
 			type : 'string'
 		}
 
