@@ -8,6 +8,7 @@
 module.exports = {
 	//Upload Images to AWS S3
 	upload: function (req, res) {
+        console.log('req');
 		Image.upload(req.body, function(err, data){
 			if (!err) {
 				res.json(data);

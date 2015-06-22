@@ -118,7 +118,7 @@ module.exports = {
 
 		data.role = 'user';
 		//Hardcode value Later remove it.
-		if(data.email === "dhananjaymg@gmail.com"){
+		if(data.email === "raghavendrav44@gmail.com"){
 			data.role = "admin"
 		}
 

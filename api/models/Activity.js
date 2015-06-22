@@ -4,7 +4,9 @@
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
-var base_url = "https://s3-ap-southeast-1.amazonaws.com/mantra-dash/attachments/";
+var base_url = "https://s3-ap-southeast-1.amazonaws.com/mantra-dash/avatar/";
+// base_url_attachments = "https://s3-ap-southeast-1.amazonaws.com/mantra-dash/attachments/";
+
 module.exports = {
 	tableName: "activity",
 
@@ -145,8 +147,13 @@ module.exports = {
 								delete info.hashKey;
 								delete info.email_verified;
 								delete info.password;
+								// info.avatar = base_url+info.avatar;
 								response.user = info;
+								// response.attachment = base_url_attachments + response.attachment;
+								sails.log.debug("avatar",info.avatar);
+								sails.log.debug("user",response.user);
 								callback(null, response);
+								sails.log.debug("response",response);
 							} else {
 								callback({status: 400, message: "User not found"});	
 							}
@@ -171,7 +178,7 @@ module.exports = {
 					userInfo.email = user.email;
 					userInfo.name = user.name;
 					userInfo.id = user.id;
-					userInfo.avatar = user.avatar;
+					userInfo.avatar = base_url + user.avatar;
 					data.userInfo = userInfo;
 					Activity.create(data).exec(function (err, activity) {
 						if(!err) {

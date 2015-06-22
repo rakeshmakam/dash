@@ -9,8 +9,10 @@
 module.exports = function(req, res, next) {
 
   var activityId = req.param('id');
+  console.log(activityId);
   var userId = req.session.user.id;
   Activity.findOne({id : activityId}).exec(function(err,activity){
+
   	if (!err){
       if (activity.user){
          var ownerId = activity.user;
