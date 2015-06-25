@@ -50,7 +50,12 @@ module.exports = {
 	index: function (user, callback) {
 		Task.find({assignedTo: user.id},{sort: 'createdAt DESC'}).populateAll().exec(function (err, tasks) {
 			if (!err) {
-				callback(null, tasks);
+				// if (user.length == 0) {
+					// callback({status: 402, message: "User not found"});
+				// } else {
+					callback(null, tasks);
+				// }
+				
 			} else {
 				callback(err);
 			}

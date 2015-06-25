@@ -72,11 +72,19 @@ module.exports = {
 	},
 
 	edit: function (projectId, req, callback) {
+		sails.log.debug("insidemodel",req);
 		Project.update({id : projectId}, req, function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
 					callback({status: 402, message: "Project not found"});
 				} else {
+					Task.destroy({project : projectId,assignedTo : req.removedMembers}).exec(function (errors, response){
+						sails.log.debug("response",response);
+						if(!errors){
+							console.log('Tasks associated with the '+projectId+' are deleted');
+						}
+					});
+					
 					callback(null, data);
 				}
 			} else {

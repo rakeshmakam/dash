@@ -22,7 +22,9 @@ module.exports = {
 				 _.map(activities, function(activity) {
 				 	activity.user.avatar = base_url + activity.user.avatar;
 				 });
+				 
 				res.json(activities);
+				sails.log.debug("activities",activities);
 			} else {
 				res.negotiate(err);
 			}
@@ -37,7 +39,7 @@ module.exports = {
 			res.badRequest('description is missing');
 		}else Activity.add(req.body, function (err, activity) {
 			if (!err) {
-				activity.user.avatar = base_url+activity.user.avatar; 
+				activity.user.avatar = base_url + activity.user.avatar; 
 				res.json(activity);
 				sails.log.debug("activity",activity)
 			} else {
