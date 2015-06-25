@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing tasks
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-
+var base_url = "https://s3-ap-southeast-1.amazonaws.com/mantra-dash/avatar/";
 module.exports = {
 	
 
@@ -12,6 +12,10 @@ module.exports = {
     var user = req.session.user;
     Task.index(user, function (err, tasks) {
       if (!err) {
+        _.map(tasks,function(task){
+          task.assignedBy.avatar = base_url+task.assignedBy.avatar;
+          task.assignedTo.avatar = base_url+task.assignedTo.avatar;
+        })
         res.json(tasks);
       } else {
         res.negotiate(err);
@@ -29,6 +33,8 @@ module.exports = {
    if(user.id != req.body.assignedTo){
       Task.add(req.body, function (err, task) {
          if (!err) {
+            task.assignedBy.avatar = base_url+task.assignedBy.avatar;
+            task.assignedTo.avatar = base_url+task.assignedTo.avatar;
             res.json(task);
             EmailService.taskAlert(task, function(error, data){
                if (!error) {

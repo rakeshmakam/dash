@@ -4,6 +4,7 @@
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
+var base_url = "https://s3-ap-southeast-1.amazonaws.com/mantra-dash/avatar/";
 
 module.exports = {
 	tableName: "task",
@@ -81,6 +82,8 @@ module.exports = {
 										delete info.hashKey;
 										delete info.email_verified;
 										delete info.password;
+										// info.avatar = base_url+info.avatar;
+										sails.log.debug("info",info);
 										response.assignedBy = info;
 										callback(null, response);
 									} else {

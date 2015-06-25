@@ -4,18 +4,24 @@
  * @description :: Server-side logic for managing activities
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-var base_url = "https://s3-ap-southeast-1.amazonaws.com/mantra-dash/attachments/";
+var base_url = "https://s3-ap-southeast-1.amazonaws.com/mantra-dash/avatar/";
 module.exports = {
 
 	//Get list of activity
-	index: function (req, res) {		
+	index: function (req, res) {
+			
 		var conditions = {};
 		if(req.param('projectId')){
 			conditions.project =  req.param('projectId');
 		}
 		conditions.userData = req.session.user;
+		sails.log.debug("conditions",conditions)
 		Activity.index(conditions, function (err, activities) {
+
 			if (!err) {
+				 _.map(activities, function(activity) {
+				 	activity.user.avatar = base_url + activity.user.avatar;
+				 });
 				res.json(activities);
 			} else {
 				res.negotiate(err);
@@ -31,7 +37,9 @@ module.exports = {
 			res.badRequest('description is missing');
 		}else Activity.add(req.body, function (err, activity) {
 			if (!err) {
+				activity.user.avatar = base_url+activity.user.avatar; 
 				res.json(activity);
+				sails.log.debug("activity",activity)
 			} else {
 				res.negotiate(err);
 			}

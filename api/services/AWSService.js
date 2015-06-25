@@ -9,15 +9,6 @@ AWS.config.update({
     secretAccessKey: secretAccessKey
 });
 
-sails.log.debug(accessKeyId);
-sails.log.debug(secretAccessKey);
-sails.log.debug(process.env.ANT_HOME);
-
-
-
-
-
-
 var s3 = new AWS.S3();
 
 exports.upload = function (doc, cb) {
