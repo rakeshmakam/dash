@@ -34,7 +34,7 @@ module.exports = {
 	//Edit the project details
 	edit: function (req, res) {
 		sails.log.debug("projectremoved",req.body);
-		var removedMembers = req.body.removedMembers;
+		// var removedMembers = req.body.removedMembers;
 		var projectId = req.param('id');
 		Project.edit(projectId, req.body, function (err, project) {
 			if (!err) {

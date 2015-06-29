@@ -184,7 +184,7 @@ module.exports = {
         }
     },
 
-    //Get the status of user. This API checks wheather User is logged in or not.
+    //Get the status of user. This API checks whether User is logged in or not.
     status: function (req, res) { 
         var user = req.session.user;
         if (user){
