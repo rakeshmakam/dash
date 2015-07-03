@@ -66,3 +66,22 @@ exports.taskAlert = function(data, cb) {
 		}
 	});
 };
+
+exports.projectAlert = function(data, cb) {
+	sails.log.debug("alert",data);
+	var mail = {
+		from: 'Dash <noreply@dash.com>',
+		to: data.emailIds,
+		subject: 'New Project is assigned to you',
+		template: 'projectDescription',
+		context: data
+	}
+
+	transporter.sendMail(mail, function(err, res){
+		if (err) { 
+			cb(err);
+		}else{
+			cb(null, res);
+		}
+	});
+};

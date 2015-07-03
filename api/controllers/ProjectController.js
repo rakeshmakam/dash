@@ -34,11 +34,19 @@ module.exports = {
 	//Edit the project details
 	edit: function (req, res) {
 		sails.log.debug("projectremoved",req.body);
+		
 		// var removedMembers = req.body.removedMembers;
 		var projectId = req.param('id');
 		Project.edit(projectId, req.body, function (err, project) {
 			if (!err) {
 				res.json(project);
+				EmailService.projectAlert(req.body, function(error, data){
+	               if (!error) {
+	                  sails.log.debug("email project response",req.body);
+	               } else {
+	                  sails.log.error(error);
+	               }
+	            });
 			} else {
 				res.negotiate(err);
 			}
