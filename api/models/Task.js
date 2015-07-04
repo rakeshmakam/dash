@@ -92,17 +92,17 @@ module.exports = {
 										info.avatar = base_url+info.avatar;
 										sails.log.debug("info",info);
 										response.assignedBy = info;
-										// Task.update({id : task.id}, function (err, data) {
-										// 	if (!err) {
-										// 		if (data.length == 0) {
-										// 			callback({status: 402, message: "Task not found"});
-										// 		} else {
-										// 			callback(null, data);
-										// 		}
-										// 	} else {
-										// 		callback(err);
-										// 	}
-										// });
+										Task.update({id : task.id}, function (err, data) {
+											if (!err) {
+												if (data.length == 0) {
+													callback({status: 402, message: "Task not found"});
+												} else {
+													callback(null, data);
+												}
+											} else {
+												callback(err);
+											}
+										});
 										callback(null, response);
 									} else {
 										callback({status: 400, message: "User not found"});	
@@ -154,6 +154,10 @@ module.exports = {
     assignedTask: function(user, callback) {
     	Task.find ({assignedBy:user.id},{sort: 'createdAt DESC'}).populateAll().exec(function (err, tasks){
     		if(!err){
+    			 _.map(tasks,function(task){
+	    			task.assignedBy.avatar = base_url + task.assignedBy.avatar;
+	    			task.assignedTo.avatar = base_url + task.assignedTo.avatar;
+    			});
     			callback(null,tasks);
     		} else {
     			callback(err);
