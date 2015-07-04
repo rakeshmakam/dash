@@ -50,6 +50,7 @@ exports.resetPassword = function(data, cb) {
 };
 
 exports.taskAlert = function(data, cb) {
+	sails.log.debug("taskmail",data);
 	var mail = {
 		from: 'Dash <noreply@dash.com>',
 		to: data.assignedTo.email,
@@ -67,17 +68,42 @@ exports.taskAlert = function(data, cb) {
 	});
 };
 
-exports.projectAlert = function(data, cb) {
-	sails.log.debug("alert",data);
+exports.projectAlertAdded = function(data, cb) {
+	sails.log.debug("alertadded",data);
+	
 	var mail = {
 		from: 'Dash <noreply@dash.com>',
-		to: data.emailIds,
+		to: data.added.toString(),
+		
 		subject: 'New Project is assigned to you',
-		template: 'projectDescription',
+		template: 'projectAdded',
 		context: data
 	}
+	sails.log.debug(data.toString());
+
+	transporter.sendMail(mail, function(err, res ){
+		if (err) { 
+			cb(err);
+		}else{
+			cb(null, res);
+		}
+	});
+};
+
+exports.projectAlertRemoved = function(data, cb) {
+	sails.log.debug("alertremoved",data);
+	
+	var mail = {
+		from: 'Dash <noreply@dash.com>',
+		to: data.removed.toString(),
+		subject: 'You are removed from the project',
+		template: 'projectRemoved',
+		context: data
+	}
+	sails.log.debug(data.toString());
 
 	transporter.sendMail(mail, function(err, res){
+
 		if (err) { 
 			cb(err);
 		}else{

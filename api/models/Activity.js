@@ -150,10 +150,10 @@ module.exports = {
 								// info.avatar = base_url+info.avatar;
 								response.user = info;
 								// response.attachment = base_url_attachments + response.attachment;
-								sails.log.debug("avatar",info.avatar);
-								sails.log.debug("user",response.user);
+								// sails.log.debug("avatar",info.avatar);
+								// sails.log.debug("user",response.user);
 								callback(null, response);
-								sails.log.debug("response",response);
+								// sails.log.debug("response",response);
 							} else {
 								callback({status: 400, message: "User not found"});	
 							}

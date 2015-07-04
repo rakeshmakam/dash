@@ -33,24 +33,42 @@ module.exports = {
 
 	//Edit the project details
 	edit: function (req, res) {
-		sails.log.debug("projectremoved",req.body);
+		// sails.log.debug("projectremoved",req.body);
 		
 		// var removedMembers = req.body.removedMembers;
 		var projectId = req.param('id');
 		Project.edit(projectId, req.body, function (err, project) {
 			if (!err) {
 				res.json(project);
-				EmailService.projectAlert(req.body, function(error, data){
-	               if (!error) {
-	                  sails.log.debug("email project response",req.body);
-	               } else {
-	                  sails.log.error(error);
-	               }
-	            });
+				
 			} else {
 				res.negotiate(err);
 			}
 		});
+	},
+
+	notification : function (req, res) {
+		sails.log.debug("req.body",req.body)
+		if(req.body.added.length > 0){
+			sails.log.debug("req.body.added.length",req.body.added.length);
+			EmailService.projectAlertAdded(req.body, function(error, data){
+	           if (!error) {
+	              sails.log.debug("email project response",data);
+	           } else {
+	              sails.log.error(error);
+	           }
+		    });
+		}
+		if(req.body.removed.length > 0){
+		    EmailService.projectAlertRemoved(req.body, function(error, data){
+		    	sails.log.debug("req.body.removed.length",req.body.removed.length);
+	           if (!error) {
+	              sails.log.debug("email project response",data);
+	           } else {
+	              sails.log.error(error);
+	           }
+		    });
+		}
 	},
 
 	//Delete project

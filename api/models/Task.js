@@ -67,6 +67,7 @@ module.exports = {
 			if(!err) {
 				var response = {};
 				response = task;
+				sails.log.debug("taskid",task);
 				Project.findOne(task.project, function (err, project){
 					if(!err){
 						var projectinfo = JSON.parse(JSON.stringify(project));
@@ -80,6 +81,7 @@ module.exports = {
 								delete info.hashKey;
 								delete info.email_verified;
 								delete info.password;
+								info.avatar = base_url+info.avatar;
 								response.assignedTo = info;
 								User.findOne(task.assignedBy, function(err, userBy){
 									if(!err){
@@ -87,9 +89,20 @@ module.exports = {
 										delete info.hashKey;
 										delete info.email_verified;
 										delete info.password;
-										// info.avatar = base_url+info.avatar;
+										info.avatar = base_url+info.avatar;
 										sails.log.debug("info",info);
 										response.assignedBy = info;
+										// Task.update({id : task.id}, function (err, data) {
+										// 	if (!err) {
+										// 		if (data.length == 0) {
+										// 			callback({status: 402, message: "Task not found"});
+										// 		} else {
+										// 			callback(null, data);
+										// 		}
+										// 	} else {
+										// 		callback(err);
+										// 	}
+										// });
 										callback(null, response);
 									} else {
 										callback({status: 400, message: "User not found"});	

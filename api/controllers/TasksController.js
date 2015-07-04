@@ -28,14 +28,16 @@ module.exports = {
    */
   add: function (req, res) {
    var user = req.session.user;
+   // sails.log.debug("req.body",req.body);
    req.body.assignedBy = user.id;
-
+  
    if(user.id != req.body.assignedTo){
       Task.add(req.body, function (err, task) {
          if (!err) {
-            task.assignedBy.avatar = base_url+task.assignedBy.avatar;
-            task.assignedTo.avatar = base_url+task.assignedTo.avatar;
+             // task.assignedBy.avatar = base_url+req.body.assignedBy.avatar;
+             // task.assignedTo.avatar = base_url+req.body.assignedTo.avatar;
             res.json(task);
+            sails.log.debug("taskadd",task);
             EmailService.taskAlert(task, function(error, data){
                if (!error) {
                   sails.log.debug(data);

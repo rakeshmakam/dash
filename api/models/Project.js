@@ -72,7 +72,7 @@ module.exports = {
 	},
 
 	edit: function (projectId, req, callback) {
-		sails.log.debug("insidemodel",req);
+		// sails.log.debug("insidemodel",req);
 		Project.update({id : projectId}, req, function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
