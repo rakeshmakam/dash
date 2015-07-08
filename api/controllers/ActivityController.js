@@ -14,6 +14,7 @@ module.exports = {
 		if(req.param('projectId')){
 			conditions.project =  req.param('projectId');
 		}
+		sails.log.debug("req.session.user",req.session.user);
 		conditions.userData = req.session.user;
 		sails.log.debug("conditions",conditions)
 		Activity.index(conditions, function (err, activities) {

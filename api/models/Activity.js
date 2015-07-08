@@ -44,6 +44,9 @@ module.exports = {
 	},
 	
 	index: function (data, callback) {
+		sails.log.debug("data",data);
+		sails.log.debug("udata",data.userData.id);
+		User.findOne({id: data.userData.id}).populate('projects').exec(function (err, user) {
 		var counter = 0;
 		var i = 0;
 		var length;
@@ -60,10 +63,11 @@ module.exports = {
 				}
 			});
 		} else {
-			length = data.userData.projects.length;
+			// length = data.userData.projects.length;
+			length = user.projects.length;
 			if(length > 0){
 				var fn1 = function(){
-					var project = data.userData.projects[i++];
+					var project = user.projects[i++];
 					var fn2 = function(){
 						if(counter < length){
 							fn1();
@@ -74,6 +78,7 @@ module.exports = {
 					var conditions = {};
 					conditions.parentId = null;
 					conditions.project = project.id;
+					sails.log.debug("conditionswithoutparams",conditions)
 					Activity.findActivities(conditions, function(error, response){
 						if(!error){
 							if(response && response.length > 0){
@@ -91,6 +96,7 @@ module.exports = {
 				callback(null, []);
 			}
 		}
+	});
 	},
 
 	findActivities: function(data, callback){

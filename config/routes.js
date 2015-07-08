@@ -54,6 +54,7 @@ module.exports.routes = {
   'DELETE /workspace/:id'           : 'WorkspaceController.delete',
 
   'POST /project'                   : 'ProjectController.add',
+  'GET /myprojects'                 : 'ProjectController.myprojects',
   'GET /project'                    : 'ProjectController.index',
   'GET /project/:id'                : 'ProjectController.projectDetails',
   'PUT /project/:id'                : 'ProjectController.edit',

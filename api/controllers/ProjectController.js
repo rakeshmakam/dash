@@ -87,6 +87,19 @@ module.exports = {
         }
     },
 
+    myprojects : function (req, res){
+    	var user = req.session.user;
+    	Project.myprojects(user,function (err, projects) {
+			if (!err) {
+				res.json(projects);
+				sails.log.debug("myprojects",projects);
+			} else {
+				res.negotiate(err);
+			}
+		});
+
+    },
+
     projectDetails: function (req, res) {
     	var projectId = req.param('id');
     	if (projectId) {

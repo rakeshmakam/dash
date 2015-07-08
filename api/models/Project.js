@@ -71,8 +71,19 @@ module.exports = {
 		});
 	},
 
+	myprojects : function (user,callback) {
+		sails.log.debug("user.id",user.id);
+		Project.find({users:user.id}).populateAll().exec( function (err, projects) {
+			if(!err) {
+				callback(null, projects);
+			} else {
+				callback(err);
+			}
+		});
+	},
+
 	edit: function (projectId, req, callback) {
-		// sails.log.debug("insidemodel",req);
+		sails.log.debug("insidemodel",req);
 		Project.update({id : projectId}, req, function (err, data) {
 			if (!err) {
 				if (data.length == 0) {
@@ -81,7 +92,7 @@ module.exports = {
 					Task.destroy({project : projectId,assignedTo : req.removedMembers}).exec(function (errors, response){
 						sails.log.debug("response",response);
 						if(!errors){
-							console.log('Tasks associated with the '+projectId+' are deleted');
+							// console.log('Tasks associated with the '+projectId+' are deleted');
 						}
 					});
 					
