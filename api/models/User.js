@@ -235,6 +235,48 @@ module.exports = {
 	    });
 	},
 
+	setNewPassword : function (opts, callback) {
+		sails.log.debug("opts",opts);
+		User.findOne({where: {id: opts.userId}}).exec(function (err, user) {
+			if (err) {
+				callback(err);
+			} else if(user) {
+				// if (user.email_verified){
+					var obj = {};
+					if (opts.newPassword) {
+						saltAndHash(opts.newPassword, function (hash) {
+							obj.password = hash;
+						});
+					};
+					validatePassword(opts.oldPassword, user.password, function (res) {
+						sails.log.debug("res hash",res);
+						if(res) {
+							User.update({id : user.id}, obj, function (err, user) {
+								if (!err) {
+									if (user.length == 0) {
+										callback({status: 402, message: "User not found"});
+									} else {
+										// callback(null, user);
+									}
+								} else {
+									callback(err);
+								}
+							});
+							callback(null,"password changed succesfully");
+						} else {
+							callback({status: 402, message: "password does not match"});
+						}
+					});
+				// } else {
+				// 	callback({status: 400, message: "Please confirm your email"});
+				// }
+			} else {
+				callback({status: 402, message: "User does not exists"});
+			} 
+	    });
+
+	},
+
 	//For Deleting the user
 	delete: function (userId, callback) {
 		User.destroy({id : userId}).exec(function (err, data) {
@@ -319,6 +361,7 @@ var saltAndHash = function (pass, callback) {
 };
 
 var validatePassword = function (plainPass, hashedPass, callback) {
+	sails.log.debug("plainPass",plainPass, hashedPass);
 	var salt = hashedPass.substr(0, 10);
 	var validHash = salt + md5(plainPass + salt);
 	callback(hashedPass === validHash);

@@ -67,7 +67,7 @@ module.exports = {
 			if(!err) {
 				var response = {};
 				response = task;
-				sails.log.debug("taskid",task);
+				// sails.log.debug("taskid",task);
 				Project.findOne(task.project, function (err, project){
 					if(!err){
 						var projectinfo = JSON.parse(JSON.stringify(project));
@@ -90,7 +90,7 @@ module.exports = {
 										delete info.email_verified;
 										delete info.password;
 										info.avatar = base_url+info.avatar;
-										sails.log.debug("info",info);
+										// sails.log.debug("info",info);
 										response.assignedBy = info;
 										Task.update({id : task.id}, function (err, data) {
 											if (!err) {

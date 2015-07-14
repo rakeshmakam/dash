@@ -26,7 +26,7 @@ module.exports = {
 				 });
 				 
 				res.json(activities);
-				sails.log.debug("activities",activities);
+				// sails.log.debug("activities",activities);
 			} else {
 				res.negotiate(err);
 			}
@@ -43,7 +43,7 @@ module.exports = {
 			if (!err) {
 				activity.user.avatar = base_url + activity.user.avatar; 
 				res.json(activity);
-				sails.log.debug("activity",activity)
+				// sails.log.debug("activity",activity)
 			} else {
 				res.negotiate(err);
 			}

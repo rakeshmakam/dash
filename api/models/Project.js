@@ -72,7 +72,7 @@ module.exports = {
 	},
 
 	myprojects : function (user,callback) {
-		sails.log.debug("user.id",user.id);
+		// sails.log.debug("user.id",user.id);
 		Project.find({users:user.id}).populateAll().exec( function (err, projects) {
 			if(!err) {
 				callback(null, projects);
@@ -83,7 +83,7 @@ module.exports = {
 	},
 
 	edit: function (projectId, req, callback) {
-		sails.log.debug("insidemodel",req);
+		// sails.log.debug("insidemodel",req);
 		Project.update({id : projectId}, req, function (err, data) {
 			if (!err) {
 				if (data.length == 0) {

@@ -37,6 +37,7 @@ module.exports.routes = {
   'POST /user'                      : 'UserController.add',
   'PUT /user'                       : 'UserController.edit',
   'POST /reset_password_initiate'   : 'UserController.resetPasswordInitiate',
+  'PUT /set_new_password'           : 'UserController.setNewPassword',
   'PUT /reset_password'             : 'UserController.resetPassword',
   'PUT /basic_info'                 : 'UserController.basicInfo',
   'POST /user/login'                : 'UserController.login',

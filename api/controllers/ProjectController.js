@@ -48,9 +48,9 @@ module.exports = {
 	},
 
 	notification : function (req, res) {
-		sails.log.debug("req.body",req.body)
+		// sails.log.debug("req.body",req.body)
 		if(req.body.added.length > 0){
-			sails.log.debug("req.body.added.length",req.body.added.length);
+			// sails.log.debug("req.body.added.length",req.body.added.length);
 			EmailService.projectAlertAdded(req.body, function(error, data){
 	           if (!error) {
 	              sails.log.debug("email project response",data);
@@ -61,7 +61,7 @@ module.exports = {
 		}
 		if(req.body.removed.length > 0){
 		    EmailService.projectAlertRemoved(req.body, function(error, data){
-		    	sails.log.debug("req.body.removed.length",req.body.removed.length);
+		    	// sails.log.debug("req.body.removed.length",req.body.removed.length);
 	           if (!error) {
 	              sails.log.debug("email project response",data);
 	           } else {
@@ -92,7 +92,7 @@ module.exports = {
     	Project.myprojects(user,function (err, projects) {
 			if (!err) {
 				res.json(projects);
-				sails.log.debug("myprojects",projects);
+				// sails.log.debug("myprojects",projects);
 			} else {
 				res.negotiate(err);
 			}

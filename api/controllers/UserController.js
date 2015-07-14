@@ -110,6 +110,8 @@ module.exports = {
     	}
     },
 
+
+
     basicInfo : function(req, res){
     	if(req.body.hashKey && req.body.password && req.body.name){
     		User.basicInfo(req.body, function (err, user) {
@@ -160,6 +162,25 @@ module.exports = {
                 }   
             });
         }
+    },
+
+    setNewPassword : function(req, res){
+    	sails.log.debug("req.body",req.body)
+    	if (!req.body || !req.body.oldPassword || !req.body.newPassword) {
+			res.badRequest('password missing in request');
+		} else {
+			User.setNewPassword(req.body, function (err, user) {
+				if (!err) {
+					res.json(user);
+					sails.log.debug("user in controller",user);
+                } else {
+					res.negotiate(err);
+                } 
+                sails.log.debug("user in controller1");  
+            });
+             sails.log.debug("user in controller2");  
+        }
+         sails.log.debug("user in controller3");  
     },
 
     //Logout API

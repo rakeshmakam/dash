@@ -44,8 +44,8 @@ module.exports = {
 	},
 	
 	index: function (data, callback) {
-		sails.log.debug("data",data);
-		sails.log.debug("udata",data.userData.id);
+		// sails.log.debug("data",data);
+		// sails.log.debug("udata",data.userData.id);
 		User.findOne({id: data.userData.id}).populate('projects').exec(function (err, user) {
 		var counter = 0;
 		var i = 0;
@@ -78,7 +78,7 @@ module.exports = {
 					var conditions = {};
 					conditions.parentId = null;
 					conditions.project = project.id;
-					sails.log.debug("conditionswithoutparams",conditions)
+					// sails.log.debug("conditionswithoutparams",conditions)
 					Activity.findActivities(conditions, function(error, response){
 						if(!error){
 							if(response && response.length > 0){
