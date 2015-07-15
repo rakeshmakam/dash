@@ -129,9 +129,10 @@ module.exports = {
     },
 
     projectDetails: function (projectId, callback) {
+
     	Project.findOne({id : projectId}).populateAll().exec( function (err, project) {
 			if (!err) {
-				if (project.length == 0) {
+				if (!project) {
 					return callback({status: 402, message: "Project not found"});
 				} else {
 					return callback(null, project);
