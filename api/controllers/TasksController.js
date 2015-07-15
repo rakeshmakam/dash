@@ -50,7 +50,7 @@ module.exports = {
          }
       });
    } else {
-      res.badRequest('assinedTo and assigned by should not be same');
+      res.badRequest('assignedTo and assigned by should not be same');
    }
 
   },
