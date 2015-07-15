@@ -37,7 +37,7 @@ module.exports = {
 		},
 
 		duedate: {
-			type: 'string'
+			type: "date"
 		},
 
 		status : {
