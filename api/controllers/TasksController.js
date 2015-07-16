@@ -31,7 +31,7 @@ module.exports = {
    // sails.log.debug("req.body",req.body);
    req.body.assignedBy = user.id;
   
-   if(user.id != req.body.assignedTo){
+   // if(user.id != req.body.assignedTo){
       Task.add(req.body, function (err, task) {
          if (!err) {
              // task.assignedBy.avatar = base_url+req.body.assignedBy.avatar;
@@ -49,9 +49,9 @@ module.exports = {
             res.negotiate(err);
          }
       });
-   } else {
-      res.badRequest('assignedTo and assigned by should not be same');
-   }
+   // } else {
+   //    res.badRequest('assignedTo and assigned by should not be same');
+   // }
 
   },
 
