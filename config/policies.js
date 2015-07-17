@@ -56,8 +56,8 @@ module.exports.policies = {
 
   ProjectController: {
     list: ['sessionAuth'],
-    add : ['isAdmin'],
-    edit: ['isAdmin'],
+    // add : ['isAdmin'],
+    // edit: ['isAdmin'],
     delete : ['isAdmin']
   },
 
