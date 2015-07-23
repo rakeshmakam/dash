@@ -37,7 +37,7 @@ module.exports = {
              // task.assignedBy.avatar = base_url+req.body.assignedBy.avatar;
              // task.assignedTo.avatar = base_url+req.body.assignedTo.avatar;
             res.json(task);
-            sails.log.debug("taskadd",task);
+            // sails.log.debug("taskadd",task);
             EmailService.taskAlert(task, function(error, data){
                if (!error) {
                   sails.log.debug(data);

@@ -81,7 +81,7 @@ module.exports = {
 
 					EmailService.resetPassword(user, function(err, user){
 						if(!err) {
-							sails.log.debug('controller',user);
+							// sails.log.debug('controller',user);
 						} else{
 							sails.log.debug(err);
 						}

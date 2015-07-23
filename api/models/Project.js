@@ -50,7 +50,7 @@ module.exports = {
 					callback(err);
 				}
 			});
-		}else{
+		} else {
 			User.findOne({id: user.id}).populate('projects').exec(function (err, user) {
 				if (!err) {
 					callback(null, user.projects);
@@ -71,7 +71,7 @@ module.exports = {
 		});
 	},
 
-	myprojects : function (user,callback) {
+	myprojects : function (user, callback) {
 		// sails.log.debug("user.id",user.id);
 		Project.find({users:user.id}).populateAll().exec( function (err, projects) {
 			if(!err) {
@@ -89,8 +89,8 @@ module.exports = {
 				if (data.length == 0) {
 					callback({status: 402, message: "Project not found"});
 				} else {
-					Task.destroy({project : projectId,assignedTo : req.removedMembers}).exec(function (errors, response){
-						sails.log.debug("response",response);
+					Task.destroy({project : projectId , assignedTo : req.removedMembers}).exec(function (errors, response){
+						// sails.log.debug("response",response);
 						if(!errors){
 							// console.log('Tasks associated with the '+projectId+' are deleted');
 						}

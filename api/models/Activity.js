@@ -1,4 +1,4 @@
-/**
+ /**
 * Activity.js
 *
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
@@ -11,6 +11,7 @@ module.exports = {
 	tableName: "activity",
 
 	attributes: {
+
 		description: {
 			type: "string"
 			// required : true
@@ -29,6 +30,7 @@ module.exports = {
 		likes: {
 			type: 'json'
 		},
+
 		comments: {
 			type: 'json'
 		},
@@ -37,6 +39,7 @@ module.exports = {
 			// model:'Attachment',
 			type: 'string'
 		},
+
 		parentId: {
 			type: 'string',
 			defaultsTo:null
@@ -142,6 +145,7 @@ module.exports = {
 	add: function (data, callback) {
 		Activity.create(data).exec(function (err, activity) {
 			if(!err) {
+				// sails.log.debug("activityres",activity);
 				var response = {};
 				response = activity;
 				Project.findOne(activity.project, function(err, project){
@@ -155,6 +159,7 @@ module.exports = {
 								delete info.password;
 								// info.avatar = base_url+info.avatar;
 								response.user = info;
+								// sails.log.debug("response",response);
 								// response.attachment = base_url_attachments + response.attachment;
 								// sails.log.debug("avatar",info.avatar);
 								// sails.log.debug("user",response.user);
@@ -174,7 +179,7 @@ module.exports = {
 		});
 	},
 
-	addComment: function(data, callback){
+	addComment: function (data, callback) {
 		data.likes = [];
 		if(data.userId){
 			User.findOne({id: data.userId}, function(err, user){
@@ -253,6 +258,7 @@ module.exports = {
 			}
 		});
     },
+
     upload : function(data, callback){
 		var buffer = new Buffer(data.data, 'base64');
 		data.data = buffer;
@@ -276,14 +282,21 @@ module.exports = {
 			}
 		})
   	},
+  	
   	like : function(data, callback){
   		Activity.findOne({id : data.activityId}).exec(function (err, activity) {
 			if (!err) {
-  				var doc = JSON.parse(JSON.stringify(activity));
+				// sails.log.debug("nthngplain",activity);
+				var doc = JSON.parse(JSON.stringify(activity));
+  				// sails.log.debug("stringify",JSON.stringify(activity));
+  				// sails.log.debug("parse",JSON.parse(activity));
+  				// sails.log.debug("both",JSON.parse(JSON.stringify(activity)));
   				var existedLikes = [];
  
 				if(_.contains(doc.likes, data.userId)){
 					_.each(doc.likes, function(uid, idx){
+						sails.log.debug("uid",uid);
+						sails.log.debug("idx",idx);
 						if(uid != data.userId){
 							existedLikes.push(uid);
 						}

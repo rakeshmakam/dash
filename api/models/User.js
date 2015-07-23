@@ -11,6 +11,7 @@ module.exports = {
 	tableName: "user",
   
   	attributes: {
+
 		email: {
 			type: "email",
 			required : true,
@@ -38,7 +39,7 @@ module.exports = {
 			type: "string"
 		},
 
-		avatar: {
+		avatar: {	
 			type: "string"
 		},
 
@@ -81,6 +82,7 @@ module.exports = {
 	index: function (data, callback) {
 		User.find().populate("projects").exec(function (err, data) {
 			if (!err) {
+				sails.log.debug("datapro",data);
 				callback(null, data);
 			} else {
 				callback(err);
@@ -145,6 +147,7 @@ module.exports = {
 				data.password = hash;
 			});
 		};
+		
 		User.update({id : userId}, data, function (err, user) {
 			if (!err) {
 				if (user.length == 0) {
@@ -168,6 +171,7 @@ module.exports = {
 				req.password = hash;
 			});
 		};
+		
 		User.update({where :{hashKey : req.hashKey}}, req, function (err, user) {
 			if (!err) {
 				if (user.length == 0) {
@@ -236,7 +240,7 @@ module.exports = {
 	},
 
 	setNewPassword : function (opts, callback) {
-		sails.log.debug("opts",opts);
+		// sails.log.debug("opts",opts);
 		User.findOne({where: {id: opts.userId}}).exec(function (err, user) {
 			if (err) {
 				callback(err);
@@ -361,7 +365,7 @@ var saltAndHash = function (pass, callback) {
 };
 
 var validatePassword = function (plainPass, hashedPass, callback) {
-	sails.log.debug("plainPass",plainPass, hashedPass);
+	// sails.log.debug("plainPass",plainPass, hashedPass);
 	var salt = hashedPass.substr(0, 10);
 	var validHash = salt + md5(plainPass + salt);
 	callback(hashedPass === validHash);
