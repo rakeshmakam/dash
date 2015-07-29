@@ -1,4 +1,4 @@
-/**
+	/**
  * ActivityController
  *
  * @description :: Server-side logic for managing activities
@@ -14,13 +14,9 @@ module.exports = {
 		if(req.param('projectId')){
 			conditions.project =  req.param('projectId');
 		}
-		// sails.log.debug("req.params",conditions);
-		// sails.log.debug("req",req.param('projectId'))
-		// sails.log.debug("req.session.user",req.session.user);
-		conditions.userData = req.session.user;
-		// sails.log.debug("req.params",conditions);
-		// sails.log.debug("conditions",conditions)
 		
+		conditions.userData = req.session.user;
+
 		Activity.index(conditions, function (err, activities) {
 
 			if (!err) {
@@ -29,7 +25,6 @@ module.exports = {
 				 });
 				 
 				res.json(activities);
-				// sails.log.debug("activities",activities);
 			} else {
 				res.negotiate(err);
 			}

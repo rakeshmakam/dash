@@ -102,7 +102,7 @@ module.exports = {
 		});
 	},
 
-	profile: function (id, callback){
+	profile:  function (id, callback){
 		User.findOne({id : id}).populateAll().exec(function (err, user){
 			if(!err) {
 				delete user['password'];

@@ -47,8 +47,6 @@ module.exports = {
 	},
 	
 	index: function (data, callback) {
-		// sails.log.debug("data",data);
-		// sails.log.debug("udata",data.userData.id);
 		User.findOne({id: data.userData.id}).populate('projects').exec(function (err, user) {
 		var counter = 0;
 		var i = 0;
@@ -66,7 +64,6 @@ module.exports = {
 				}
 			});
 		} else {
-			// length = data.userData.projects.length;
 			length = user.projects.length;
 			if(length > 0){
 				var fn1 = function(){
@@ -81,7 +78,6 @@ module.exports = {
 					var conditions = {};
 					conditions.parentId = null;
 					conditions.project = project.id;
-					// sails.log.debug("conditionswithoutparams",conditions)
 					Activity.findActivities(conditions, function(error, response){
 						if(!error){
 							if(response && response.length > 0){
@@ -145,7 +141,6 @@ module.exports = {
 	add: function (data, callback) {
 		Activity.create(data).exec(function (err, activity) {
 			if(!err) {
-				// sails.log.debug("activityres",activity);
 				var response = {};
 				response = activity;
 				Project.findOne(activity.project, function(err, project){
@@ -157,14 +152,9 @@ module.exports = {
 								delete info.hashKey;
 								delete info.email_verified;
 								delete info.password;
-								// info.avatar = base_url+info.avatar;
 								response.user = info;
-								// sails.log.debug("response",response);
-								// response.attachment = base_url_attachments + response.attachment;
-								// sails.log.debug("avatar",info.avatar);
-								// sails.log.debug("user",response.user);
+							
 								callback(null, response);
-								// sails.log.debug("response",response);
 							} else {
 								callback({status: 400, message: "User not found"});	
 							}
@@ -259,7 +249,7 @@ module.exports = {
 		});
     },
 
-    upload : function(data, callback){
+    upload : function (data, callback) {
 		var buffer = new Buffer(data.data, 'base64');
 		data.data = buffer;
 		data.subfolder = 'attachments';
@@ -286,11 +276,7 @@ module.exports = {
   	like : function(data, callback){
   		Activity.findOne({id : data.activityId}).exec(function (err, activity) {
 			if (!err) {
-				// sails.log.debug("nthngplain",activity);
 				var doc = JSON.parse(JSON.stringify(activity));
-  				// sails.log.debug("stringify",JSON.stringify(activity));
-  				// sails.log.debug("parse",JSON.parse(activity));
-  				// sails.log.debug("both",JSON.parse(JSON.stringify(activity)));
   				var existedLikes = [];
  
 				if(_.contains(doc.likes, data.userId)){

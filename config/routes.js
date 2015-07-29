@@ -34,7 +34,6 @@ module.exports.routes = {
   '/': {
     view: 'homepage'
   },
-  'POST /chat'                      : 'ChatController.addConv',
   'POST /user'                      : 'UserController.add',
   'PUT /user'                       : 'UserController.edit',
   'POST /reset_password_initiate'   : 'UserController.resetPasswordInitiate',
