@@ -49,7 +49,7 @@ exports.resetPassword = function(data, cb) {
 	});
 };
 
-exports.taskAlert = function(data, cb) {
+exports.taskAlert = function (data, cb) {
 	sails.log.debug("taskmail",data);
 	var mail = {
 		from: 'Dash <noreply@dash.com>',
@@ -68,7 +68,7 @@ exports.taskAlert = function(data, cb) {
 	});
 };
 
-exports.projectAlertAdded = function(data, cb) {
+exports.projectAlertAdded = function (data, cb) {
 	sails.log.debug("alertadded",data);
 	
 	var mail = {
@@ -90,7 +90,7 @@ exports.projectAlertAdded = function(data, cb) {
 	});
 };
 
-exports.projectAlertRemoved = function(data, cb) {
+exports.projectAlertRemoved = function (data, cb) {
 	sails.log.debug("alertremoved",data);
 	
 	var mail = {

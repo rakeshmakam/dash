@@ -49,9 +49,7 @@ module.exports = {
             res.negotiate(err);
          }
       });
-   // } else {
-   //    res.badRequest('assignedTo and assigned by should not be same');
-   // }
+  
 
   },
 
@@ -96,3 +94,13 @@ module.exports = {
 
 };
 
+
+
+
+
+
+
+//line 52
+ // } else {
+   //    res.badRequest('assignedTo and assigned by should not be same');
+   // }

@@ -22,7 +22,7 @@ module.exports = function(req, res, next) {
   		if (userId == ownerId){
   			return next();
   		} else {
-	  		return res.forbidden('You are not permitted to perform this action activity.');
+	  		return res.forbidden('You are not permitted to perform this action.');
 	  	}
   	} else {
   		return res.serverError();
