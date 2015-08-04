@@ -34,6 +34,7 @@ module.exports = {
    // if(user.id != req.body.assignedTo){
       Task.add(req.body, function (err, task) {
          if (!err) {
+              sails.log.debug("task",task);
              // task.assignedBy.avatar = base_url+req.body.assignedBy.avatar;
              // task.assignedTo.avatar = base_url+req.body.assignedTo.avatar;
             res.json(task);
@@ -46,6 +47,7 @@ module.exports = {
                }
             });
          } else {
+          sails.log.debug("task-error",err);
             res.negotiate(err);
          }
       });
@@ -67,9 +69,7 @@ module.exports = {
     });
   },
 
-  /**
-   * `TasksController.delete()`
-   */
+  
   delete: function (req, res) {
     var taskId = req.param('id');
     Task.delete(taskId, function (err, task) {
@@ -94,13 +94,4 @@ module.exports = {
 
 };
 
-
-
-
-
-
-
-//line 52
- // } else {
-   //    res.badRequest('assignedTo and assigned by should not be same');
-   // }
+   

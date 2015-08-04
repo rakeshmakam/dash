@@ -89,12 +89,12 @@ module.exports = {
 				if (data.length == 0) {
 					callback({status: 402, message: "Project not found"});
 				} else {
-					Task.destroy({project : projectId , assignedTo : req.removedMembers}).exec(function (errors, response){
-						// sails.log.debug("response",response);
-						if(!errors){
-							// console.log('Tasks associated with the '+projectId+' are deleted');
-						}
-					});
+					// Task.destroy({project : projectId , assignedTo : req.removedMembers}).exec(function (errors, response){
+					// 	// sails.log.debug("response",response);
+					// 	if(!errors){
+					// 		// console.log('Tasks associated with the '+projectId+' are deleted');
+					// 	}
+					// });
 					
 					callback(null, data);
 				}
